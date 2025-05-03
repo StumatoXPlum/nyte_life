@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/screens/user_onboarding/basic_info.dart';
+import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class Preferences extends StatelessWidget {
   const Preferences({super.key});
@@ -46,7 +46,7 @@ class Preferences extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BasicInfo()),
+                  MaterialPageRoute(builder: (context) => PageViewScreen()),
                 );
               },
               child: Container(

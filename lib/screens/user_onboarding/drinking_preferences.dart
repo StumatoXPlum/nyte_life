@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/core/custom_continue.dart';
 import 'package:nytelife/screens/user_onboarding/bubble_screen.dart';
+import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class DrinkingPreferences extends StatefulWidget {
-  const DrinkingPreferences({super.key});
+  final VoidCallback goToPrevious;
+  final PageController pageController;
+  const DrinkingPreferences({
+    super.key,
+    required this.goToPrevious,
+    required this.pageController,
+  });
 
   @override
   State<DrinkingPreferences> createState() => _DrinkingPreferencesState();
@@ -13,7 +20,6 @@ class DrinkingPreferences extends StatefulWidget {
 class _DrinkingPreferencesState extends State<DrinkingPreferences> {
   String? selectedDrinking;
   String? selectedSmoking;
-
   final List<String> drinkingOptions = ['Yes', 'No'];
   final List<String> smokingOptions = ['Yes', 'No'];
 
@@ -67,8 +73,15 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomBackButton(),
-            SizedBox(height: size.height * 0.06),
+            CustomBackButton(onTap: widget.goToPrevious),
+            SizedBox(height: size.height * 0.03),
+            Center(
+              child: CustomPageIndicator(
+                controller: widget.pageController,
+                pageCount: 3,
+              ),
+            ),
+            SizedBox(height: size.height * 0.03),
             Align(
               alignment: Alignment.center,
               child: Text(

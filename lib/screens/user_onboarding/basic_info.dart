@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/core/custom_continue.dart';
-import 'package:nytelife/screens/user_onboarding/food_preferences.dart';
+import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class BasicInfo extends StatefulWidget {
-  const BasicInfo({super.key});
+  final VoidCallback goToNext;
+  final PageController pageController;
+  const BasicInfo({
+    super.key,
+    required this.goToNext,
+    required this.pageController,
+  });
 
   @override
   State<BasicInfo> createState() => _BasicInfoState();
@@ -85,7 +91,10 @@ class _BasicInfoState extends State<BasicInfo> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Positioned(left: size.width * 0.08, child: CustomBackButton()),
+          Positioned(
+            left: size.width * 0.08,
+            child: CustomBackButton(onTap: Navigator.of(context).pop),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: SingleChildScrollView(
@@ -94,7 +103,11 @@ class _BasicInfoState extends State<BasicInfo> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: size.height * 0.1),
+                    CustomPageIndicator(
+                      controller: widget.pageController,
+                      pageCount: 3,
+                    ),
+                    SizedBox(height: size.height * 0.03),
                     Center(
                       child: Text(
                         "Basic Information",
@@ -196,16 +209,7 @@ class _BasicInfoState extends State<BasicInfo> {
                     SizedBox(height: size.height * 0.03),
                     buildTextField("Address"),
                     SizedBox(height: size.height * 0.03),
-                    CustomContinue(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FoodPreferences(),
-                          ),
-                        );
-                      },
-                    ),
+                    CustomContinue(onTap: widget.goToNext),
                     SizedBox(height: size.height * 0.05),
                   ],
                 ),

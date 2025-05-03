@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/core/custom_continue.dart';
-import 'package:nytelife/screens/user_onboarding/drinking_preferences.dart';
+import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class FoodPreferences extends StatefulWidget {
-  const FoodPreferences({super.key});
+  final VoidCallback goToNext;
+  final VoidCallback goToPrevious;
+  final PageController pageController;
+  const FoodPreferences({
+    super.key,
+    required this.goToNext,
+    required this.goToPrevious,
+    required this.pageController,
+  });
 
   @override
   State<FoodPreferences> createState() => _FoodPreferencesState();
@@ -75,8 +83,15 @@ class _FoodPreferencesState extends State<FoodPreferences> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomBackButton(),
-              SizedBox(height: size.height * 0.06),
+              CustomBackButton(onTap: widget.goToPrevious),
+              SizedBox(height: size.height * 0.03),
+              Center(
+                child: CustomPageIndicator(
+                  controller: widget.pageController,
+                  pageCount: 3,
+                ),
+              ),
+              SizedBox(height: size.height * 0.03),
               Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -117,16 +132,7 @@ class _FoodPreferencesState extends State<FoodPreferences> {
               SizedBox(height: size.height * 0.08),
               Align(
                 alignment: Alignment.center,
-                child: CustomContinue(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DrinkingPreferences(),
-                      ),
-                    );
-                  },
-                ),
+                child: CustomContinue(onTap: widget.goToNext),
               ),
               SizedBox(height: size.height * 0.03),
             ],
