@@ -13,8 +13,8 @@ class PageViewScreen extends StatefulWidget {
 
 class _PageViewScreenState extends State<PageViewScreen> {
   final PageController controller = PageController();
-
   int _currentPage = 0;
+  String dateOfBirth = "";
 
   void _goToNextPage() {
     if (_currentPage < 2) {
@@ -45,7 +45,11 @@ class _PageViewScreenState extends State<PageViewScreen> {
             child: PageView(
               controller: controller,
               children: [
-                BasicInfo(goToNext: _goToNextPage, pageController: controller),
+                BasicInfo(
+                  goToNext: _goToNextPage,
+                  pageController: controller,
+                  onDateOfBirthChanged: (value) => dateOfBirth = value,
+                ),
                 FoodPreferences(
                   goToNext: _goToNextPage,
                   goToPrevious: _goToPreviousPage,
@@ -83,8 +87,8 @@ class CustomPageIndicator extends StatelessWidget {
         dotWidth: 30.0,
         dotHeight: 8.0,
         spacing: 8.0,
-        dotColor: Color(0xffF2DB8F),
-        activeDotColor: Color(0xffD3AF37),
+        dotColor: const Color(0xffF2DB8F),
+        activeDotColor: const Color(0xffD3AF37),
       ),
     );
   }

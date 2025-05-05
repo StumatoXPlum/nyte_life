@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/core/custom_continue.dart';
 import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
+import 'package:nytelife/screens/user_onboarding/widgets/date_widget.dart';
 
 class BasicInfo extends StatefulWidget {
   final VoidCallback goToNext;
   final PageController pageController;
+  final ValueChanged<String> onDateOfBirthChanged;
   const BasicInfo({
     super.key,
     required this.goToNext,
     required this.pageController,
+    required this.onDateOfBirthChanged,
   });
 
   @override
@@ -18,6 +20,7 @@ class BasicInfo extends StatefulWidget {
 }
 
 class _BasicInfoState extends State<BasicInfo> {
+  final TextEditingController _dateOfBirthController = TextEditingController();
   String? selectedGender;
   DateTime? selectedDate;
 
@@ -27,6 +30,7 @@ class _BasicInfoState extends State<BasicInfo> {
       color: Colors.black.withValues(alpha: 0.6),
     );
     return TextField(
+      style: TextStyle(fontFamily: 'britti'),
       cursorColor: Colors.black,
       decoration: InputDecoration(
         hintText: hint,
@@ -47,34 +51,6 @@ class _BasicInfoState extends State<BasicInfo> {
         ),
       ),
     );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
-  String _formatDate(DateTime date) {
-    int day = date.day;
-    String suffix = 'th';
-    if (day == 1 || day == 21 || day == 31) {
-      suffix = 'st';
-    } else if (day == 2 || day == 22) {
-      suffix = 'nd';
-    } else if (day == 3 || day == 23) {
-      suffix = 'rd';
-    }
-    String month = DateFormat('MMMM').format(date);
-    return '$day$suffix $month';
   }
 
   @override
@@ -176,32 +152,9 @@ class _BasicInfoState extends State<BasicInfo> {
                         ),
                         SizedBox(width: size.width * 0.03),
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () => _selectDate(context),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: padding,
-                                vertical: padding * 0.90,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffF0ECEC),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey),
-                              ),
-                              child: Text(
-                                selectedDate != null
-                                    ? _formatDate(selectedDate!)
-                                    : "Your Birthday",
-                                style:
-                                    selectedDate != null
-                                        ? TextStyle(
-                                          fontFamily: 'britti',
-                                          color: Colors.black,
-                                          fontSize: fontSize,
-                                        )
-                                        : hintTextStyle,
-                              ),
-                            ),
+                          child: CustomDateField(
+                            controller: _dateOfBirthController,
+                            onDateChanged: widget.onDateOfBirthChanged,
                           ),
                         ),
                       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nytelife/screens/user_onboarding/preferences.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -11,8 +12,15 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          Lottie.asset('assets/animations/light.json', fit: BoxFit.cover),
+          SizedBox(height: size.height * 0.03),
+          SvgPicture.asset(
+            'assets/event.svg',
+            height: size.height * 0.4,
+            width: size.width * 0.4,
+          ),
+          Spacer(),
           SvgPicture.asset(
             'assets/logo.svg',
             height: size.height * 0.06,

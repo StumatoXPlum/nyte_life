@@ -17,7 +17,9 @@ class Preferences extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(left: size.width * 0.08),
-            child: CustomBackButton(),
+            child: CustomBackButton(
+              onTap: () => Navigator.pop(context),
+            ),
           ),
           SizedBox(height: size.height * 0.1),
           Padding(

@@ -15,27 +15,27 @@ class _BubbleScreenState extends State<BubbleScreen> {
     {
       'title': 'Gender',
       'value': 'Male',
-      'left': 0.05,
-      'top': 0.12,
-      'size': 0.20,
+      'left': 0.0,
+      'top': 0.11,
+      'size': 0.22,
     },
-    {'title': 'Name', 'value': 'John', 'left': 0.25, 'top': 0.05, 'size': 0.3},
+    {'title': 'Name', 'value': 'John', 'left': 0.22, 'top': 0.05, 'size': 0.35},
     {
       'title': 'Birthday',
       'value': '25th May',
-      'left': 0.57,
-      'top': 0.08,
-      'size': 0.20,
+      'left': 0.59,
+      'top': 0.07,
+      'size': 0.22,
     },
     {
       'title': 'Favourite',
       'value': 'Mexican',
-      'left': 0.15,
-      'top': 0.20,
-      'size': 0.3,
+      'left': 0.04,
+      'top': 0.21,
+      'size': 0.4,
     },
-    {'title': 'Drinker', 'value': 'No', 'left': 0.47, 'top': 0.18, 'size': 0.3},
-    {'title': 'Smoker', 'value': 'No', 'left': 0.39, 'top': 0.31, 'size': 0.20},
+    {'title': 'Drinker', 'value': 'No', 'left': 0.45, 'top': 0.18, 'size': 0.4},
+    {'title': 'Smoker', 'value': 'No', 'left': 0.38, 'top': 0.36, 'size': 0.24},
   ];
 
   Set<String> selectedValues = {};
@@ -64,34 +64,37 @@ class _BubbleScreenState extends State<BubbleScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: padding * 2),
-        child: Column(
-          children: [
-            CustomBackButton(),
-            SizedBox(height: size.height * 0.05),
-            Text(
-              "Hey John! Thanks for choosing us",
-              style: TextStyle(
-                fontSize: fontSize * 1.3,
-                fontFamily: 'britti',
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: padding * 2),
+            child: CustomBackButton(onTap: () => Navigator.pop(context)),
+          ),
+          SizedBox(height: size.height * 0.05),
+          Text(
+            "Hey John! Thanks for choosing us",
+            style: TextStyle(
+              fontSize: fontSize * 1.3,
+              fontFamily: 'britti',
+              fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: size.height * 0.01),
-            Text(
-              "Deselect the bubble if it doesn't \napply to you",
-              style: TextStyle(
-                color: Color(0xffD3AF37),
-                fontSize: fontSize,
-                fontFamily: 'britti',
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: size.height * 0.01),
+          Text(
+            "Deselect the bubble if it doesn't \napply to you",
+            style: TextStyle(
+              color: Color(0xffD3AF37),
+              fontSize: fontSize,
+              fontFamily: 'britti',
+              fontWeight: FontWeight.w500,
             ),
-            Expanded(
-              child: Center(
+            textAlign: TextAlign.center,
+          ),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: padding),
                 child: Stack(
                   children:
                       bubbles
@@ -108,20 +111,20 @@ class _BubbleScreenState extends State<BubbleScreen> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.center,
-              child: CustomContinue(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
-                },
-              ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: CustomContinue(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              },
             ),
-            SizedBox(height: size.height * 0.05),
-          ],
-        ),
+          ),
+          SizedBox(height: size.height * 0.05),
+        ],
       ),
     );
   }
