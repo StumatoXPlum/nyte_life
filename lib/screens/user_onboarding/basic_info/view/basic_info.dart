@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/core/custom_continue.dart';
-import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
-import 'package:nytelife/screens/user_onboarding/widgets/date_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/custom_back_button.dart';
+import '../../../../core/custom_continue.dart';
+import '../widgets/location_service.dart';
+import '../../cubit/on_boarding_cubit.dart';
+import '../../page_view_screen.dart';
+import '../widgets/date_widget.dart';
 
 class BasicInfo extends StatefulWidget {
   final VoidCallback goToNext;
@@ -21,8 +24,32 @@ class BasicInfo extends StatefulWidget {
 
 class _BasicInfoState extends State<BasicInfo> {
   final TextEditingController _dateOfBirthController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  bool isLoading = false;
   String? selectedGender;
   DateTime? selectedDate;
+
+  Future<void> _getAddress() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      String address = await LocationService.getAddress();
+      setState(() {
+        _addressController.text = address;
+      });
+    } catch (e) {
+      setState(() {
+        _addressController.text = "Address Unavailable";
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   Widget buildTextField(String hint) {
     final hintTextStyle = TextStyle(
@@ -32,6 +59,7 @@ class _BasicInfoState extends State<BasicInfo> {
     return TextField(
       style: TextStyle(fontFamily: 'britti'),
       cursorColor: Colors.black,
+      controller: _nameController,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: hintTextStyle,
@@ -160,9 +188,43 @@ class _BasicInfoState extends State<BasicInfo> {
                       ],
                     ),
                     SizedBox(height: size.height * 0.03),
-                    buildTextField("Address"),
+                    TextField(
+                      controller: _addressController,
+                      readOnly: true,
+                      onTap: _getAddress,
+                      decoration: InputDecoration(
+                        hintText: isLoading ? 'Fetching Address...' : 'Address',
+                        hintStyle: hintTextStyle,
+                        filled: true,
+                        fillColor: const Color(0xffF0ECEC),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: size.height * 0.03),
-                    CustomContinue(onTap: widget.goToNext),
+                    CustomContinue(
+                      onTap: () {
+                        final name = _nameController.text.trim();
+                        if (name.isNotEmpty) {
+                          context.read<OnboardingCubit>().setName(name);
+                          widget.goToNext();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Please enter your name')),
+                          );
+                        }
+                      },
+                    ),
                     SizedBox(height: size.height * 0.05),
                   ],
                 ),

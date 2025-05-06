@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/core/custom_continue.dart';
 import 'package:nytelife/screens/user_onboarding/bubble_screen.dart';
+import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class DrinkingPreferences extends StatefulWidget {
@@ -20,16 +22,18 @@ class DrinkingPreferences extends StatefulWidget {
 class _DrinkingPreferencesState extends State<DrinkingPreferences> {
   String? selectedDrinking;
   String? selectedSmoking;
-  final List<String> drinkingOptions = ['Yes', 'No'];
-  final List<String> smokingOptions = ['Yes', 'No'];
+  final List<String> drinkingOptions = ['Yes, I drink', 'No, I don\'t drink'];
+  final List<String> smokingOptions = ['Yes, I smoke', 'No, I don\'t smoke'];
 
   void toggleDrinkingSelection(String option) {
+    context.read<OnboardingCubit>().setDrinkingPreference(option);
     setState(() {
       selectedDrinking = option;
     });
   }
 
   void toggleSmokingSelection(String option) {
+    context.read<OnboardingCubit>().setSmokingPreference(option);
     setState(() {
       selectedSmoking = option;
     });
@@ -132,9 +136,25 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
               alignment: Alignment.center,
               child: CustomContinue(
                 onTap: () {
+                  final state = context.read<OnboardingCubit>().state;
+                  final combinedPreferences = [
+                    if (state.name.isNotEmpty) state.name,
+                    ...state.selectedPreferences,
+                    if (state.drinkingPreference != null)
+                      state.drinkingPreference!,
+                    if (state.smokingPreference != null)
+                      state.smokingPreference!,
+                  ];
+
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => BubbleScreen()),
+                    MaterialPageRoute(
+                      builder:
+                          (context) => BubbleScreen(
+                            preferences: combinedPreferences,
+                            name: state.name,
+                          ),
+                    ),
                   );
                 },
               ),

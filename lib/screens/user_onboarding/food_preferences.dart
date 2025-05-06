@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/core/custom_continue.dart';
+import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class FoodPreferences extends StatefulWidget {
@@ -39,20 +41,20 @@ class _FoodPreferencesState extends State<FoodPreferences> {
   ];
 
   void toggleSelection(String option) {
-    setState(() {
-      if (selectedOptions.contains(option)) {
-        selectedOptions.remove(option);
-      } else {
-        selectedOptions.add(option);
-      }
-    });
+    context.read<OnboardingCubit>().togglePreference(option);
+  }
+
+  bool isSelected(String option) {
+    return context.watch<OnboardingCubit>().state.selectedPreferences.contains(
+      option,
+    );
   }
 
   Widget buildOption(String option) {
     final Size size = MediaQuery.of(context).size;
     double padding = size.width * 0.05;
     double fontSize = size.width * 0.045;
-    final isSelected = selectedOptions.contains(option);
+    final selected = isSelected(option);
     return GestureDetector(
       onTap: () => toggleSelection(option),
       child: Padding(
@@ -60,7 +62,7 @@ class _FoodPreferencesState extends State<FoodPreferences> {
         child: Text(
           option,
           style: TextStyle(
-            color: isSelected ? Colors.black : Colors.black45,
+            color: selected ? Colors.black : Colors.black45,
             fontSize: fontSize * 1.3,
             fontFamily: 'britti',
             fontWeight: FontWeight.bold,

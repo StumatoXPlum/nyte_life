@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nytelife/screens/user_onboarding/basic_info.dart';
-import 'package:nytelife/screens/user_onboarding/drinking_preferences.dart';
-import 'package:nytelife/screens/user_onboarding/food_preferences.dart';
+import 'basic_info/view/basic_info.dart';
+import 'drinking_preferences.dart';
+import 'food_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PageViewScreen extends StatefulWidget {

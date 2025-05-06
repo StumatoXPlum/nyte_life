@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nytelife/core/custom_back_button.dart';
+import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
 
 class Preferences extends StatelessWidget {
@@ -17,9 +19,7 @@ class Preferences extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(left: size.width * 0.08),
-            child: CustomBackButton(
-              onTap: () => Navigator.pop(context),
-            ),
+            child: CustomBackButton(onTap: () => Navigator.pop(context)),
           ),
           SizedBox(height: size.height * 0.1),
           Padding(
@@ -48,7 +48,13 @@ class Preferences extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PageViewScreen()),
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BlocProvider(
+                          create: (context) => OnboardingCubit(),
+                          child: PageViewScreen(),
+                        ),
+                  ),
                 );
               },
               child: Container(
