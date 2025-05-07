@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/screens/sign_up_screen.dart/sign_up_screen.dart';
+import 'package:nytelife/core/custom_bottom_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'NyteLife',
-            home: SignUpScreen(),
+            home: CustomBottomBar(),
           ),
     );
   }

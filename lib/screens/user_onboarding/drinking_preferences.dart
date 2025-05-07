@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nytelife/screens/home_screen.dart';
 import '../../core/custom_back_button.dart';
 import '../../core/custom_continue.dart';
-import 'bubble_screen.dart';
 import 'cubit/on_boarding_cubit.dart';
 import 'page_view_screen.dart';
 
@@ -153,9 +153,9 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
                   context,
                   MaterialPageRoute(
                     builder:
-                        (context) => BubbleScreen(
-                          preferences: combinedPreferences,
-                          name: state.name,
+                        (context) => HomeScreen(
+                          // preferences: combinedPreferences,
+                          // name: state.name,
                         ),
                   ),
                 );
