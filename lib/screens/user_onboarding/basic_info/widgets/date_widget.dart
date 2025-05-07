@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class DatePickerService {
@@ -10,8 +11,8 @@ class DatePickerService {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
       ),
       backgroundColor: Colors.white,
       builder: (context) {
@@ -117,18 +118,13 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
     if (_selectedDay > daysInMonth) {
       _selectedDay = daysInMonth;
     }
-
     List<int> days = List.generate(daysInMonth, (index) => index + 1);
-    final Size size = MediaQuery.of(context).size;
-    double fontSize = size.width * 0.05;
-    double padding = size.width * 0.03;
-
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-        left: size.width * 0.03,
-        right: size.width * 0.03,
-        top: size.height * 0.02,
+        bottom: 80.h,
+        left: 30.w,
+        right: 30.w,
+        top: 50.h,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -136,14 +132,13 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
           Text(
             'Select Date of Birth',
             style: TextStyle(
-              fontSize: fontSize * 1.2,
+              fontSize: 64.sp,
               fontFamily: 'britti',
-
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          SizedBox(height: size.height * 0.02),
+          SizedBox(height: 50.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -157,7 +152,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 },
                 initialItem: _selectedMonthIndex,
               ),
-              SizedBox(width: size.width * 0.03),
+              SizedBox(width: 50.w),
               _buildWheelPicker(
                 controller: _dayController,
                 items: days.map((day) => day.toString()).toList(),
@@ -168,7 +163,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 },
                 initialItem: _selectedDay - 1,
               ),
-              SizedBox(width: size.width * 0.03),
+              SizedBox(width: 50.w),
               _buildWheelPicker(
                 controller: _yearController,
                 items: _years.map((year) => year.toString()).toList(),
@@ -181,7 +176,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
               ),
             ],
           ),
-          SizedBox(height: size.height * 0.03),
+          SizedBox(height: 60.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -190,14 +185,14 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 child: Text(
                   'Cancel',
                   style: TextStyle(
+                    fontSize: 60.sp,
                     fontFamily: 'britti',
-
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              SizedBox(width: size.width * 0.04),
+              SizedBox(width: 40.w),
               ElevatedButton(
                 onPressed: () {
                   DateTime selectedDate = DateTime(
@@ -210,11 +205,11 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffD3AF37),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(30.r),
                   ),
                   padding: EdgeInsets.symmetric(
-                    horizontal: padding * 2,
-                    vertical: padding,
+                    horizontal: 80.w,
+                    vertical: 16.h,
                   ),
                 ),
                 child: Text(
@@ -222,14 +217,14 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                   style: TextStyle(
                     fontFamily: 'britti',
                     color: Colors.white,
-                    fontSize: fontSize * 0.9,
+                    fontSize: 60.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: size.height * 0.03),
+          SizedBox(height: 50.h),
         ],
       ),
     );
@@ -242,11 +237,11 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
     required int initialItem,
   }) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.28,
-      height: MediaQuery.of(context).size.height * 0.3,
+      width: 350.w,
+      height: 800.h,
       decoration: BoxDecoration(
         color: Color(0xffF2DB8F),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(30.r),
       ),
       child: ListWheelScrollView.useDelegate(
         controller: controller,
@@ -263,7 +258,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
               child: Text(
                 items[index],
                 style: TextStyle(
-                  fontSize: isSelected ? 18 : 14,
+                  fontSize: isSelected ? 56.sp : 48.sp,
                   fontFamily: 'britti',
                   color: isSelected ? Colors.black : Colors.white,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -290,9 +285,6 @@ class CustomDateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double fontSize = size.width * 0.05;
-
     return TextField(
       controller: controller,
       readOnly: true,
@@ -302,10 +294,14 @@ class CustomDateField extends StatelessWidget {
             controller: controller,
             onDateChanged: onDateChanged,
           ),
-      style: TextStyle(color: Colors.black, fontFamily: 'britti'),
+      style: TextStyle(
+        color: Colors.black,
+        fontFamily: 'britti',
+        fontSize: 48.sp,
+      ),
       decoration: InputDecoration(
-        labelText: "Your Birthday",
-        labelStyle: TextStyle(color: Colors.black54, fontSize: fontSize * 0.9),
+        hintText: "Your Birthday",
+        hintStyle: TextStyle(color: Colors.black54, fontSize: 48.sp),
         filled: true,
         fillColor: const Color(0xffF0ECEC),
         border: OutlineInputBorder(

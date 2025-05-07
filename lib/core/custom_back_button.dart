@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomBackButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -6,23 +7,20 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.08;
-    double fontSize = size.width * 0.05;
     return Padding(
-      padding: EdgeInsets.only(top: padding * 2),
+      padding: EdgeInsets.only(top: 273.h, left: 91.w),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
           children: [
-            Icon(Icons.arrow_back, size: fontSize),
-            SizedBox(width: size.width * 0.02),
+            Icon(Icons.arrow_back, size: 58.sp),
+            SizedBox(width: 10.w),
             Text(
               'Back',
               style: TextStyle(
                 fontFamily: 'britti',
                 fontWeight: FontWeight.bold,
-                fontSize: fontSize,
+                fontSize: 60.sp,
               ),
             ),
           ],

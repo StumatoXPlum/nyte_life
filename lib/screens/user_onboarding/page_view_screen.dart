@@ -43,6 +43,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
         children: [
           Expanded(
             child: PageView(
+              physics: NeverScrollableScrollPhysics(),
               controller: controller,
               children: [
                 BasicInfo(

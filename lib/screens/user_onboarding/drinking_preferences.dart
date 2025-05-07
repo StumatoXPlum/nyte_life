@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/core/custom_continue.dart';
-import 'package:nytelife/screens/user_onboarding/bubble_screen.dart';
-import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
-import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../core/custom_back_button.dart';
+import '../../core/custom_continue.dart';
+import 'bubble_screen.dart';
+import 'cubit/on_boarding_cubit.dart';
+import 'page_view_screen.dart';
 
 class DrinkingPreferences extends StatefulWidget {
   final VoidCallback goToPrevious;
@@ -44,19 +45,16 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
     String? selectedOption,
     Function(String) onTap,
   ) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.05;
-    double fontSize = size.width * 0.045;
     final isSelected = selectedOption == option;
     return GestureDetector(
       onTap: () => onTap(option),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: padding * 0.15),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: Text(
           option,
           style: TextStyle(
             color: isSelected ? Colors.black : Colors.black45,
-            fontSize: fontSize * 1.3,
+            fontSize: 48.sp,
             fontFamily: 'britti',
             fontWeight: FontWeight.bold,
           ),
@@ -67,101 +65,105 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.05;
-    double fontSize = size.width * 0.045;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: padding * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomBackButton(onTap: widget.goToPrevious),
-            SizedBox(height: size.height * 0.03),
-            Center(
-              child: CustomPageIndicator(
-                controller: widget.pageController,
-                pageCount: 3,
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomBackButton(onTap: widget.goToPrevious),
+          SizedBox(height: 150.h),
+          Center(
+            child: CustomPageIndicator(
+              controller: widget.pageController,
+              pageCount: 3,
             ),
-            SizedBox(height: size.height * 0.03),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Please tell us a bit about your \nDrinking Preferences",
-                style: TextStyle(
-                  fontSize: fontSize * 1.4,
-                  fontFamily: 'britti',
-                  fontWeight: FontWeight.bold,
+          ),
+          SizedBox(height: 80.h),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Please tell us a bit about your \nDrinking Preferences",
+              style: TextStyle(
+                fontSize: 64.sp,
+                fontFamily: 'britti',
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(height: 80.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 99.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Are you a drinker?",
+                  style: TextStyle(
+                    color: Color(0xffD3AF37),
+                    fontSize: 48.sp,
+                    fontFamily: 'britti',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+                SizedBox(height: 50.h),
+                ...drinkingOptions.map(
+                  (option) => buildOption(
+                    option,
+                    selectedDrinking,
+                    toggleDrinkingSelection,
+                  ),
+                ),
+                SizedBox(height: 80.h),
+                Text(
+                  "Are you a Smoker?",
+                  style: TextStyle(
+                    color: Color(0xffD3AF37),
+                    fontSize: 48.sp,
+                    fontFamily: 'britti',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 50.h),
+                ...smokingOptions.map(
+                  (option) => buildOption(
+                    option,
+                    selectedSmoking,
+                    toggleSmokingSelection,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: size.height * 0.03),
-            Text(
-              "Are you a drinker?",
-              style: TextStyle(
-                color: Color(0xffD3AF37),
-                fontSize: fontSize,
-                fontFamily: 'britti',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            ...drinkingOptions.map(
-              (option) => buildOption(
-                option,
-                selectedDrinking,
-                toggleDrinkingSelection,
-              ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            Text(
-              "Are you a Smoker?",
-              style: TextStyle(
-                color: Color(0xffD3AF37),
-                fontSize: fontSize,
-                fontFamily: 'britti',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            ...smokingOptions.map(
-              (option) =>
-                  buildOption(option, selectedSmoking, toggleSmokingSelection),
-            ),
-            Spacer(),
-            Align(
-              alignment: Alignment.center,
-              child: CustomContinue(
-                onTap: () {
-                  final state = context.read<OnboardingCubit>().state;
-                  final combinedPreferences = [
-                    if (state.name.isNotEmpty) state.name,
-                    ...state.selectedPreferences,
-                    if (state.drinkingPreference != null)
-                      state.drinkingPreference!,
-                    if (state.smokingPreference != null)
-                      state.smokingPreference!,
-                  ];
+          ),
+          Spacer(),
+          Align(
+            alignment: Alignment.center,
+            child: CustomContinue(
+              onTap: () {
+                final state = context.read<OnboardingCubit>().state;
+                final combinedPreferences = [
+                  if (state.name.isNotEmpty) state.name,
+                  ...state.selectedPreferences,
+                  if (state.drinkingPreference != null)
+                    state.drinkingPreference!,
+                  if (state.smokingPreference != null) state.smokingPreference!,
+                ];
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) => BubbleScreen(
-                            preferences: combinedPreferences,
-                            name: state.name,
-                          ),
-                    ),
-                  );
-                },
-              ),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BubbleScreen(
+                          preferences: combinedPreferences,
+                          name: state.name,
+                        ),
+                  ),
+                );
+              },
             ),
-            SizedBox(height: size.height * 0.05),
-          ],
-        ),
+          ),
+          SizedBox(height: 153.h),
+        ],
       ),
     );
   }

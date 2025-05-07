@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/custom_back_button.dart';
 import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
@@ -9,41 +10,35 @@ class Preferences extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.03;
-    double fontSize = size.width * 0.05;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          CustomBackButton(onTap: () => Navigator.pop(context)),
+          SizedBox(height: 250.h),
           Padding(
-            padding: EdgeInsets.only(left: size.width * 0.08),
-            child: CustomBackButton(onTap: () => Navigator.pop(context)),
-          ),
-          SizedBox(height: size.height * 0.1),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: padding * 3),
+            padding: EdgeInsets.only(left: 91.w),
             child: Text(
               "Please tell us a bit about your \nouting preferences",
               style: TextStyle(
-                fontSize: fontSize * 1.2,
+                fontSize: 64.sp,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'britti',
               ),
             ),
           ),
-          SizedBox(height: size.height * 0.03),
+          SizedBox(height: 60.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: padding * 3),
+            padding: EdgeInsets.only(left: 91.w),
             child: Text(
               "We want to gather Data so we can curate \na perfect nightlife experience \nthat matches what you want :)",
-              style: TextStyle(fontSize: fontSize, fontFamily: 'britti'),
+              style: TextStyle(fontSize: 48.sp, fontFamily: 'britti'),
             ),
           ),
-          SizedBox(height: size.height * 0.3),
+          SizedBox(height: 600.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: padding * 3),
+            padding: EdgeInsets.only(left: 91.w),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -58,10 +53,7 @@ class Preferences extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: padding,
-                  vertical: padding,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(8),
@@ -72,18 +64,14 @@ class Preferences extends StatelessWidget {
                     Text(
                       "Agree, Let's Do it",
                       style: TextStyle(
-                        fontSize: fontSize * 0.8,
+                        fontSize: 48.sp,
                         fontFamily: 'britti',
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(width: size.width * 0.02),
-                    Icon(
-                      Icons.arrow_forward,
-                      size: fontSize * 0.9,
-                      color: Colors.white,
-                    ),
+                    SizedBox(width: 12.w),
+                    Icon(Icons.arrow_forward, size: 48.sp, color: Colors.white),
                   ],
                 ),
               ),

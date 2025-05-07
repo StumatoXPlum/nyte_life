@@ -1,49 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nytelife/screens/user_onboarding/preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../user_onboarding/preferences.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           Lottie.asset('assets/animations/light.json', fit: BoxFit.cover),
-          SizedBox(height: size.height * 0.03),
-          SvgPicture.asset(
-            'assets/event.svg',
-            height: size.height * 0.4,
-            width: size.width * 0.4,
-          ),
-          Spacer(),
-          SvgPicture.asset(
-            'assets/logo.svg',
-            height: size.height * 0.06,
-            width: size.width * 0.06,
-          ),
-          SizedBox(height: size.height * 0.03),
+          SizedBox(height: 30.h),
+          SvgPicture.asset('assets/event.svg', height: 800.h, width: 400.w),
+          const Spacer(),
+          SvgPicture.asset('assets/logo.svg', height: 130.h, width: 668.w),
+          SizedBox(height: 109.h),
           buildContainer(
-            context,
             "assets/call.svg",
             "Continue with Phone",
-            Color(0xffD3AF37),
-            Color(0xffD3AF37),
+            const Color(0xffD3AF37),
+            const Color(0xffD3AF37),
             Colors.white,
             () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Preferences()),
+                MaterialPageRoute(builder: (context) => const Preferences()),
               );
             },
           ),
-          SizedBox(height: size.height * 0.02),
+          SizedBox(height: 56.h),
           buildContainer(
-            context,
             "assets/apple.svg",
             "Continue with Apple",
             Colors.black,
@@ -51,11 +41,11 @@ class SignUpScreen extends StatelessWidget {
             Colors.black,
             () {},
           ),
-          SizedBox(height: size.height * 0.02),
+          SizedBox(height: 80.h),
           Container(
-            height: size.height * 0.1,
+            height: 200.h,
             width: double.infinity,
-            decoration: BoxDecoration(color: Color(0xffD3AF37)),
+            decoration: const BoxDecoration(color: Color(0xffD3AF37)),
           ),
         ],
       ),
@@ -64,7 +54,6 @@ class SignUpScreen extends StatelessWidget {
 }
 
 Widget buildContainer(
-  context,
   String svgPath,
   String title,
   Color borderColor,
@@ -72,35 +61,26 @@ Widget buildContainer(
   Color containerColor,
   VoidCallback? onTap,
 ) {
-  final Size size = MediaQuery.of(context).size;
-  double padding = size.width * 0.03;
-  double fontSize = size.width * 0.05;
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: padding * 4),
+    padding: EdgeInsets.symmetric(horizontal: 122.w),
     child: GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: padding * 2,
-          vertical: padding * 1.5,
-        ),
+        height: 172.h,
+        padding: EdgeInsets.symmetric(horizontal: 60.w),
         decoration: BoxDecoration(
           color: containerColor,
           border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(29.r),
         ),
         child: Row(
           children: [
-            SvgPicture.asset(
-              svgPath,
-              height: size.width * 0.05,
-              width: size.width * 0.05,
-            ),
-            SizedBox(width: size.width * 0.05),
+            SvgPicture.asset(svgPath, height: 54.h, width: 48.w),
+            SizedBox(width: 50.w),
             Text(
               title,
               style: TextStyle(
-                fontSize: fontSize,
+                fontSize: 54.sp,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'britti',
                 color: textColor,

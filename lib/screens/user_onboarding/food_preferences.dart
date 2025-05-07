@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/core/custom_continue.dart';
-import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
-import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../core/custom_back_button.dart';
+import '../../core/custom_continue.dart';
+import 'cubit/on_boarding_cubit.dart';
+import 'page_view_screen.dart';
 
 class FoodPreferences extends StatefulWidget {
   final VoidCallback goToNext;
@@ -51,19 +52,16 @@ class _FoodPreferencesState extends State<FoodPreferences> {
   }
 
   Widget buildOption(String option) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.05;
-    double fontSize = size.width * 0.045;
     final selected = isSelected(option);
     return GestureDetector(
       onTap: () => toggleSelection(option),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: padding * 0.15),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: Text(
           option,
           style: TextStyle(
             color: selected ? Colors.black : Colors.black45,
-            fontSize: fontSize * 1.3,
+            fontSize: 48.sp,
             fontFamily: 'britti',
             fontWeight: FontWeight.bold,
           ),
@@ -74,72 +72,71 @@ class _FoodPreferencesState extends State<FoodPreferences> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.05;
-    double fontSize = size.width * 0.045;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: padding * 1.7),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomBackButton(onTap: widget.goToPrevious),
-              SizedBox(height: size.height * 0.03),
-              Center(
-                child: CustomPageIndicator(
-                  controller: widget.pageController,
-                  pageCount: 3,
-                ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomBackButton(onTap: widget.goToPrevious),
+          SizedBox(height: 150.h),
+          Center(
+            child: CustomPageIndicator(
+              controller: widget.pageController,
+              pageCount: 3,
+            ),
+          ),
+          SizedBox(height: 80.h),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Please tell us a but about your \nFood Preferences",
+              style: TextStyle(
+                fontSize: 64.sp,
+                fontFamily: 'britti',
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: size.height * 0.03),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Please tell us a but about your \nFood Preferences",
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(height: 80.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 99.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "How would you describe your Food Palette?",
                   style: TextStyle(
-                    fontSize: fontSize * 1.4,
+                    color: Color(0xffD3AF37),
+                    fontSize: 48.sp,
                     fontFamily: 'britti',
                     fontWeight: FontWeight.bold,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(height: size.height * 0.03),
-              Text(
-                "How would you describe your Food Palette?",
-                style: TextStyle(
-                  color: Color(0xffD3AF37),
-                  fontSize: fontSize,
-                  fontFamily: 'britti',
-                  fontWeight: FontWeight.bold,
+                SizedBox(height: 50.h),
+                ...foodPaletteOptions.map(buildOption),
+                SizedBox(height: 80.h),
+                Text(
+                  "What best cuisine is your favorite?",
+                  style: TextStyle(
+                    color: Color(0xffD3AF37),
+                    fontSize: 48.sp,
+                    fontFamily: 'britti',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: size.height * 0.03),
-              ...foodPaletteOptions.map(buildOption),
-              SizedBox(height: size.height * 0.03),
-              // question
-              Text(
-                "What best cuisine is your favorite?",
-                style: TextStyle(
-                  color: Color(0xffD3AF37),
-                  fontSize: fontSize,
-                  fontFamily: 'britti',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: size.height * 0.03),
-              ...cuisineOptions.map(buildOption),
-              SizedBox(height: size.height * 0.08),
-              Align(
-                alignment: Alignment.center,
-                child: CustomContinue(onTap: widget.goToNext),
-              ),
-              SizedBox(height: size.height * 0.03),
-            ],
+                SizedBox(height: 50.h),
+                ...cuisineOptions.map(buildOption),
+              ],
+            ),
           ),
-        ),
+          Spacer(),
+          Align(
+            alignment: Alignment.center,
+            child: CustomContinue(onTap: widget.goToNext),
+          ),
+          SizedBox(height: 153.h),
+        ],
       ),
     );
   }

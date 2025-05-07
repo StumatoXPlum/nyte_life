@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomContinue extends StatelessWidget {
   final VoidCallback onTap;
@@ -6,20 +7,15 @@ class CustomContinue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.03;
-    double fontSize = size.width * 0.05;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: size.width * 0.4,
-        padding: EdgeInsets.symmetric(
-          horizontal: padding * 1,
-          vertical: padding * 0.7,
-        ),
+        width: 476.w,
+        height: 111.h,
+        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
         decoration: BoxDecoration(
           color: Colors.black,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(36.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,12 +23,12 @@ class CustomContinue extends StatelessWidget {
             Text(
               "Continue",
               style: TextStyle(
-                fontSize: fontSize,
+                fontSize: 48.sp,
                 fontFamily: 'britti',
                 color: Colors.white,
               ),
             ),
-            Icon(Icons.arrow_forward, size: fontSize, color: Colors.white),
+            Icon(Icons.arrow_forward, size: 48.sp, color: Colors.white),
           ],
         ),
       ),

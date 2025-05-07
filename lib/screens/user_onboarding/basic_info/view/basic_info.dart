@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/custom_back_button.dart';
 import '../../../../core/custom_continue.dart';
 import '../widgets/location_service.dart';
@@ -57,7 +58,7 @@ class _BasicInfoState extends State<BasicInfo> {
       color: Colors.black.withValues(alpha: 0.6),
     );
     return TextField(
-      style: TextStyle(fontFamily: 'britti'),
+      style: TextStyle(fontFamily: 'britti', fontSize: 48.sp),
       cursorColor: Colors.black,
       controller: _nameController,
       decoration: InputDecoration(
@@ -66,15 +67,15 @@ class _BasicInfoState extends State<BasicInfo> {
         filled: true,
         fillColor: const Color(0xffF0ECEC),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),
@@ -83,27 +84,21 @@ class _BasicInfoState extends State<BasicInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double padding = size.width * 0.05;
-    double fontSize = size.width * 0.045;
     final hintTextStyle = TextStyle(
+      fontSize: 48.sp,
       fontFamily: 'britti',
       color: Colors.black.withValues(alpha: 0.6),
     );
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Positioned(
-            left: size.width * 0.08,
-            child: CustomBackButton(onTap: Navigator.of(context).pop),
-          ),
+          CustomBackButton(onTap: Navigator.of(context).pop),
           Align(
             alignment: Alignment.bottomCenter,
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: padding * 2),
+                padding: EdgeInsets.symmetric(horizontal: 118.w),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -111,46 +106,46 @@ class _BasicInfoState extends State<BasicInfo> {
                       controller: widget.pageController,
                       pageCount: 3,
                     ),
-                    SizedBox(height: size.height * 0.03),
+                    SizedBox(height: 54.h),
                     Center(
                       child: Text(
                         "Basic Information",
                         style: TextStyle(
-                          fontSize: fontSize * 1.3,
+                          fontSize: 64.sp,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'britti',
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height * 0.02),
+                    SizedBox(height: 30.h),
                     Center(
                       child: Text(
                         "Lorem ipsum dolor sit amet, consectetur",
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          fontFamily: 'britti',
-                        ),
+                        style: TextStyle(fontSize: 48.sp, fontFamily: 'britti'),
                       ),
                     ),
-                    SizedBox(height: size.height * 0.03),
+                    SizedBox(height: 100.h),
                     buildTextField("Please Enter Your Name"),
-                    SizedBox(height: size.height * 0.03),
+                    SizedBox(height: 50.h),
                     Row(
                       children: [
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: padding * 0.6,
-                              vertical: padding * 0.1,
-                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 60.w),
                             decoration: BoxDecoration(
                               color: const Color(0xffF0ECEC),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(30.r),
                               border: Border.all(color: Colors.grey),
                             ),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
-                                hint: Text('Gender', style: hintTextStyle),
+                                hint: Text(
+                                  'Gender',
+                                  style: TextStyle(
+                                    fontFamily: 'britti',
+                                    fontSize: 48.sp,
+                                  ),
+                                ),
                                 value: selectedGender,
                                 icon: const SizedBox.shrink(),
                                 items:
@@ -162,6 +157,7 @@ class _BasicInfoState extends State<BasicInfo> {
                                               gender,
                                               style: TextStyle(
                                                 fontFamily: 'britti',
+                                                fontSize: 48.sp,
                                               ),
                                             ),
                                           ),
@@ -173,12 +169,12 @@ class _BasicInfoState extends State<BasicInfo> {
                                   });
                                 },
                                 dropdownColor: Color(0xffF0ECEC),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(30.r),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(width: size.width * 0.03),
+                        SizedBox(width: 30.w),
                         Expanded(
                           child: CustomDateField(
                             controller: _dateOfBirthController,
@@ -187,31 +183,32 @@ class _BasicInfoState extends State<BasicInfo> {
                         ),
                       ],
                     ),
-                    SizedBox(height: size.height * 0.03),
+                    SizedBox(height: 50.h),
                     TextField(
                       controller: _addressController,
                       readOnly: true,
                       onTap: _getAddress,
+                      style: TextStyle(fontFamily: 'britti', fontSize: 48.sp),
                       decoration: InputDecoration(
                         hintText: isLoading ? 'Fetching Address...' : 'Address',
                         hintStyle: hintTextStyle,
                         filled: true,
                         fillColor: const Color(0xffF0ECEC),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(30.r),
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(30.r),
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(30.r),
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height * 0.03),
+                    SizedBox(height: 58.h),
                     CustomContinue(
                       onTap: () {
                         final name = _nameController.text.trim();
@@ -225,7 +222,7 @@ class _BasicInfoState extends State<BasicInfo> {
                         }
                       },
                     ),
-                    SizedBox(height: size.height * 0.05),
+                    SizedBox(height: 153.h),
                   ],
                 ),
               ),

@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  bubble_chart:
+    dependency: "direct main"
+    description:
+      name: bubble_chart
+      sha256: cc7287080bf6fd6f215481fa4713b84d8fdd85c7a183f76e88192f4bfaf36138
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   characters:
     dependency: transitive
     description:
@@ -126,6 +134,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      sha256: "8239210dd68bee6b0577aa4a090890342d04a136ce1c81f98ee513fc0ce891de"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.9.3"
   flutter_svg:
     dependency: "direct main"
     description:
