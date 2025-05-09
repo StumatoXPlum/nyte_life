@@ -8,19 +8,19 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 273.h, left: 91.w),
+      padding: EdgeInsets.only(top: 70.h, left: 30.w),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
           children: [
-            Icon(Icons.arrow_back, size: 58.sp),
-            SizedBox(width: 10.w),
+            Icon(Icons.arrow_back, size: 20.sp),
+            SizedBox(width: 5.w),
             Text(
               'Back',
               style: TextStyle(
                 fontFamily: 'britti',
                 fontWeight: FontWeight.bold,
-                fontSize: 60.sp,
+                fontSize: 20.sp,
               ),
             ),
           ],

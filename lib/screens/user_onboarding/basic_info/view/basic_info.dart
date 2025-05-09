@@ -58,7 +58,7 @@ class _BasicInfoState extends State<BasicInfo> {
       color: Colors.black.withValues(alpha: 0.6),
     );
     return TextField(
-      style: TextStyle(fontFamily: 'britti', fontSize: 48.sp),
+      style: TextStyle(fontFamily: 'britti', fontSize: 16.sp),
       cursorColor: Colors.black,
       controller: _nameController,
       decoration: InputDecoration(
@@ -67,15 +67,15 @@ class _BasicInfoState extends State<BasicInfo> {
         filled: true,
         fillColor: const Color(0xffF0ECEC),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),
@@ -85,150 +85,162 @@ class _BasicInfoState extends State<BasicInfo> {
   @override
   Widget build(BuildContext context) {
     final hintTextStyle = TextStyle(
-      fontSize: 48.sp,
+      fontSize: 16.sp,
       fontFamily: 'britti',
       color: Colors.black.withValues(alpha: 0.6),
     );
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          CustomBackButton(onTap: Navigator.of(context).pop),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 118.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CustomPageIndicator(
-                      controller: widget.pageController,
-                      pageCount: 3,
-                    ),
-                    SizedBox(height: 54.h),
-                    Center(
-                      child: Text(
-                        "Basic Information",
-                        style: TextStyle(
-                          fontSize: 64.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'britti',
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.h),
-                    Center(
-                      child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur",
-                        style: TextStyle(fontSize: 48.sp, fontFamily: 'britti'),
-                      ),
-                    ),
-                    SizedBox(height: 100.h),
-                    buildTextField("Please Enter Your Name"),
-                    SizedBox(height: 50.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 60.w),
-                            decoration: BoxDecoration(
-                              color: const Color(0xffF0ECEC),
-                              borderRadius: BorderRadius.circular(30.r),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                hint: Text(
-                                  'Gender',
-                                  style: TextStyle(
-                                    fontFamily: 'britti',
-                                    fontSize: 48.sp,
-                                  ),
-                                ),
-                                value: selectedGender,
-                                icon: const SizedBox.shrink(),
-                                items:
-                                    ['Male', 'Female', 'Prefer not to say']
-                                        .map(
-                                          (gender) => DropdownMenuItem(
-                                            value: gender,
-                                            child: Text(
-                                              gender,
-                                              style: TextStyle(
-                                                fontFamily: 'britti',
-                                                fontSize: 48.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedGender = value;
-                                  });
-                                },
-                                dropdownColor: Color(0xffF0ECEC),
-                                borderRadius: BorderRadius.circular(30.r),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 30.w),
-                        Expanded(
-                          child: CustomDateField(
-                            controller: _dateOfBirthController,
-                            onDateChanged: widget.onDateOfBirthChanged,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 50.h),
-                    TextField(
-                      controller: _addressController,
-                      readOnly: true,
-                      onTap: _getAddress,
-                      style: TextStyle(fontFamily: 'britti', fontSize: 48.sp),
-                      decoration: InputDecoration(
-                        hintText: isLoading ? 'Fetching Address...' : 'Address',
-                        hintStyle: hintTextStyle,
-                        filled: true,
-                        fillColor: const Color(0xffF0ECEC),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 58.h),
-                    CustomContinue(
-                      onTap: () {
-                        final name = _nameController.text.trim();
-                        if (name.isNotEmpty) {
-                          context.read<OnboardingCubit>().setName(name);
-                          widget.goToNext();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Please enter your name')),
-                          );
-                        }
-                      },
-                    ),
-                    SizedBox(height: 153.h),
-                  ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomBackButton(onTap: Navigator.of(context).pop),
+            SizedBox(height: 50.h),
+            CustomPageIndicator(
+              controller: widget.pageController,
+              pageCount: 3,
+            ),
+            SizedBox(height: 22.h),
+            Center(
+              child: Text(
+                "Basic Information",
+                style: TextStyle(
+                  fontSize: 26.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'britti',
                 ),
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 10.h),
+            Center(
+              child: Text(
+                "Lorem ipsum dolor sit amet, consectetur",
+                style: TextStyle(fontSize: 18.sp, fontFamily: 'britti'),
+              ),
+            ),
+            SizedBox(height: 40.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40.w),
+              child: Column(
+                children: [
+                  buildTextField("Please Enter Your Name"),
+                  SizedBox(height: 15.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF0ECEC),
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              hint: Text(
+                                'Gender',
+                                style: TextStyle(
+                                  fontFamily: 'britti',
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                              value: selectedGender,
+                              icon: const SizedBox.shrink(),
+                              items:
+                                  ['Male', 'Female', 'Prefer not to say']
+                                      .map(
+                                        (gender) => DropdownMenuItem(
+                                          value: gender,
+                                          child: Text(
+                                            gender,
+                                            style: TextStyle(
+                                              fontFamily: 'britti',
+                                              fontSize: 16.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedGender = value;
+                                });
+                              },
+                              dropdownColor: Color(0xffF0ECEC),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: CustomDateField(
+                          controller: _dateOfBirthController,
+                          onDateChanged: widget.onDateOfBirthChanged,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.h),
+                  TextField(
+                    controller: _addressController,
+                    readOnly: true,
+                    onTap: _getAddress,
+                    style: TextStyle(fontFamily: 'britti', fontSize: 16.sp),
+                    decoration: InputDecoration(
+                      hintText: isLoading ? 'Fetching Address...' : 'Address',
+                      hintStyle: hintTextStyle,
+                      filled: true,
+                      fillColor: const Color(0xffF0ECEC),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 50.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomContinue(
+              onTap: () {
+                final name = _nameController.text.trim();
+                if (name.isNotEmpty) {
+                  context.read<OnboardingCubit>().setName(name);
+                  widget.goToNext();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Please enter your name.',
+                        style: TextStyle(fontFamily: 'britti', fontSize: 18.sp),
+                      ),
+                      backgroundColor: Colors.red.shade600,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -24,6 +24,24 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   void setSmokingPreference(String preference) {
     emit(state.copyWith(smokingPreference: preference));
   }
+
+  void setOutdoorSettingPrefrence(String preference) {
+    emit(state.copyWith(outdoorSetting: preference));
+  }
+
+  String? getSelectedFoodOption(String category) {
+    return state.selectedFoodPreferences[category];
+  }
+
+  void selectFoodPreference(String category, String option) {
+    final current = Map<String, String>.from(state.selectedFoodPreferences);
+    current[category] = option;
+    emit(state.copyWith(selectedFoodPreferences: current));
+  }
+
+  bool isFoodPreferenceSelected(String category, String option) {
+    return state.selectedFoodPreferences[category] == option;
+  }
 }
 
 class OnboardingState {
@@ -31,25 +49,36 @@ class OnboardingState {
   final Set<String> selectedPreferences;
   final String? drinkingPreference;
   final String? smokingPreference;
+  final String? outdoorSetting;
+
+  final Map<String, String> selectedFoodPreferences;
 
   OnboardingState({
     this.name = '',
     Set<String>? selectedPreferences,
     this.drinkingPreference,
     this.smokingPreference,
-  }) : selectedPreferences = selectedPreferences ?? {};
+    this.outdoorSetting,
+    Map<String, String>? selectedFoodPreferences,
+  }) : selectedPreferences = selectedPreferences ?? {},
+       selectedFoodPreferences = selectedFoodPreferences ?? {};
 
   OnboardingState copyWith({
     String? name,
     Set<String>? selectedPreferences,
     String? drinkingPreference,
     String? smokingPreference,
+    String? outdoorSetting,
+    Map<String, String>? selectedFoodPreferences,
   }) {
     return OnboardingState(
       name: name ?? this.name,
       selectedPreferences: selectedPreferences ?? this.selectedPreferences,
       drinkingPreference: drinkingPreference ?? this.drinkingPreference,
       smokingPreference: smokingPreference ?? this.smokingPreference,
+      outdoorSetting: outdoorSetting ?? this.outdoorSetting,
+      selectedFoodPreferences:
+          selectedFoodPreferences ?? this.selectedFoodPreferences,
     );
   }
 }

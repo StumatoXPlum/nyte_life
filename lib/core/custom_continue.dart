@@ -10,12 +10,12 @@ class CustomContinue extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 476.w,
-        height: 111.h,
-        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
+        width: 150.w,
+        height: 40.h,
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: Colors.black,
-          borderRadius: BorderRadius.circular(36.r),
+          borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -23,12 +23,12 @@ class CustomContinue extends StatelessWidget {
             Text(
               "Continue",
               style: TextStyle(
-                fontSize: 48.sp,
+                fontSize: 16.sp,
                 fontFamily: 'britti',
                 color: Colors.white,
               ),
             ),
-            Icon(Icons.arrow_forward, size: 48.sp, color: Colors.white),
+            Icon(Icons.arrow_forward, size: 16.sp, color: Colors.white),
           ],
         ),
       ),

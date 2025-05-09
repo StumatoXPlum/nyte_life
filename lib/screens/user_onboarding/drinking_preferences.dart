@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/screens/home_screen.dart';
+import 'package:nytelife/core/custom_bottom_bar.dart';
 import '../../core/custom_back_button.dart';
 import '../../core/custom_continue.dart';
 import 'cubit/on_boarding_cubit.dart';
@@ -21,40 +21,91 @@ class DrinkingPreferences extends StatefulWidget {
 }
 
 class _DrinkingPreferencesState extends State<DrinkingPreferences> {
-  String? selectedDrinking;
-  String? selectedSmoking;
-  final List<String> drinkingOptions = ['Yes, I drink', 'No, I don\'t drink'];
-  final List<String> smokingOptions = ['Yes, I smoke', 'No, I don\'t smoke'];
+  String? drinkingAnswer;
+  String? smokingAnswer;
+  Set<String> selectedOutdoorSettings = {};
 
-  void toggleDrinkingSelection(String option) {
-    context.read<OnboardingCubit>().setDrinkingPreference(option);
+  final List<String> outdoorSetting = [
+    'Outdoor',
+    'Indoor',
+    'Open Spaces',
+    'Rooftop',
+  ];
+
+  void toggleOutdoorSettingSelection(String option) {
     setState(() {
-      selectedDrinking = option;
+      if (selectedOutdoorSettings.contains(option)) {
+        selectedOutdoorSettings.remove(option);
+      } else {
+        selectedOutdoorSettings.add(option);
+      }
     });
   }
 
-  void toggleSmokingSelection(String option) {
-    context.read<OnboardingCubit>().setSmokingPreference(option);
-    setState(() {
-      selectedSmoking = option;
-    });
+  Widget buildYesNoOption(
+    String question,
+    String? currentAnswer,
+    Function(String) onSelect,
+  ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Text(
+              question,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.sp,
+                fontFamily: 'britti',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Row(
+            children:
+                ['Yes', 'No'].map((option) {
+                  final isSelected = currentAnswer == option;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: GestureDetector(
+                      onTap: () => onSelect(option),
+                      child: Text(
+                        option,
+                        style: TextStyle(
+                          color:
+                              isSelected ? Color(0xffD3AF37) : Colors.black26,
+                          fontSize: 20.sp,
+                          fontFamily: 'britti',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget buildOption(
+  Widget buildOutdoorOption(
     String option,
-    String? selectedOption,
+    Set<String> selectedOptions,
     Function(String) onTap,
   ) {
-    final isSelected = selectedOption == option;
+    final isSelected = selectedOptions.contains(option);
     return GestureDetector(
       onTap: () => onTap(option),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(vertical: 4.h),
         child: Text(
           option,
           style: TextStyle(
             color: isSelected ? Colors.black : Colors.black45,
-            fontSize: 48.sp,
+            fontSize: 18.sp,
             fontFamily: 'britti',
             fontWeight: FontWeight.bold,
           ),
@@ -71,99 +122,85 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomBackButton(onTap: widget.goToPrevious),
-          SizedBox(height: 150.h),
+          SizedBox(height: 50.h),
           Center(
             child: CustomPageIndicator(
               controller: widget.pageController,
               pageCount: 3,
             ),
           ),
-          SizedBox(height: 80.h),
+          SizedBox(height: 22.h),
           Align(
             alignment: Alignment.center,
             child: Text(
               "Please tell us a bit about your \nDrinking Preferences",
               style: TextStyle(
-                fontSize: 64.sp,
+                fontSize: 26.sp,
                 fontFamily: 'britti',
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: 80.h),
+          SizedBox(height: 20.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 99.w),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                buildYesNoOption("Are you a drinker?", drinkingAnswer, (
+                  answer,
+                ) {
+                  context.read<OnboardingCubit>().setDrinkingPreference(answer);
+                  setState(() {
+                    drinkingAnswer = answer;
+                  });
+                }),
+                buildYesNoOption("Are you a smoker?", smokingAnswer, (answer) {
+                  context.read<OnboardingCubit>().setSmokingPreference(answer);
+                  setState(() {
+                    smokingAnswer = answer;
+                  });
+                }),
+                SizedBox(height: 40.h),
                 Text(
-                  "Are you a drinker?",
+                  "Can you describe your ideal outdoor setting?",
                   style: TextStyle(
                     color: Color(0xffD3AF37),
-                    fontSize: 48.sp,
+                    fontSize: 18.sp,
                     fontFamily: 'britti',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 50.h),
-                ...drinkingOptions.map(
-                  (option) => buildOption(
+                SizedBox(height: 20.h),
+                ...outdoorSetting.map(
+                  (option) => buildOutdoorOption(
                     option,
-                    selectedDrinking,
-                    toggleDrinkingSelection,
-                  ),
-                ),
-                SizedBox(height: 80.h),
-                Text(
-                  "Are you a Smoker?",
-                  style: TextStyle(
-                    color: Color(0xffD3AF37),
-                    fontSize: 48.sp,
-                    fontFamily: 'britti',
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 50.h),
-                ...smokingOptions.map(
-                  (option) => buildOption(
-                    option,
-                    selectedSmoking,
-                    toggleSmokingSelection,
+                    selectedOutdoorSettings,
+                    toggleOutdoorSettingSelection,
                   ),
                 ),
               ],
             ),
           ),
-          Spacer(),
-          Align(
-            alignment: Alignment.center,
-            child: CustomContinue(
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 50.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomContinue(
               onTap: () {
-                final state = context.read<OnboardingCubit>().state;
-                final combinedPreferences = [
-                  if (state.name.isNotEmpty) state.name,
-                  ...state.selectedPreferences,
-                  if (state.drinkingPreference != null)
-                    state.drinkingPreference!,
-                  if (state.smokingPreference != null) state.smokingPreference!,
-                ];
-
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => HomeScreen(
-                          // preferences: combinedPreferences,
-                          // name: state.name,
-                        ),
-                  ),
+                  MaterialPageRoute(builder: (context) => CustomBottomBar()),
                 );
               },
             ),
-          ),
-          SizedBox(height: 153.h),
-        ],
+          ],
+        ),
       ),
     );
   }

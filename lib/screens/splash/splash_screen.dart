@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -6,14 +7,13 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: SvgPicture.asset(
           'assets/splash.svg',
-          height: size.height * 0.2,
-          width: size.width * 0.2,
+          height: 300.h,
+          width: 300.w,
           fit: BoxFit.cover,
         ),
       ),

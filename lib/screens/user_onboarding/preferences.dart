@@ -16,29 +16,29 @@ class Preferences extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomBackButton(onTap: () => Navigator.pop(context)),
-          SizedBox(height: 250.h),
+          SizedBox(height: 70.h),
           Padding(
-            padding: EdgeInsets.only(left: 91.w),
+            padding: EdgeInsets.only(left: 30.w),
             child: Text(
               "Please tell us a bit about your \nouting preferences",
               style: TextStyle(
-                fontSize: 64.sp,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'britti',
               ),
             ),
           ),
-          SizedBox(height: 60.h),
+          SizedBox(height: 24.h),
           Padding(
-            padding: EdgeInsets.only(left: 91.w),
+            padding: EdgeInsets.only(left: 30.w),
             child: Text(
               "We want to gather Data so we can curate \na perfect nightlife experience \nthat matches what you want :)",
-              style: TextStyle(fontSize: 48.sp, fontFamily: 'britti'),
+              style: TextStyle(fontSize: 22.sp, fontFamily: 'britti'),
             ),
           ),
-          SizedBox(height: 600.h),
+          SizedBox(height: 200.h),
           Padding(
-            padding: EdgeInsets.only(left: 91.w),
+            padding: EdgeInsets.only(left: 30.w),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -53,7 +53,7 @@ class Preferences extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 20.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(8),
@@ -64,14 +64,14 @@ class Preferences extends StatelessWidget {
                     Text(
                       "Agree, Let's Do it",
                       style: TextStyle(
-                        fontSize: 48.sp,
+                        fontSize: 16.sp,
                         fontFamily: 'britti',
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(width: 12.w),
-                    Icon(Icons.arrow_forward, size: 48.sp, color: Colors.white),
+                    SizedBox(width: 8.w),
+                    Icon(Icons.arrow_forward, size: 16.sp, color: Colors.white),
                   ],
                 ),
               ),

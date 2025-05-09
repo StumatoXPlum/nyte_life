@@ -12,7 +12,7 @@ class DatePickerService {
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
       ),
       backgroundColor: Colors.white,
       builder: (context) {
@@ -121,7 +121,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
     List<int> days = List.generate(daysInMonth, (index) => index + 1);
     return Padding(
       padding: EdgeInsets.only(
-        bottom: 80.h,
+        bottom: 60.h,
         left: 30.w,
         right: 30.w,
         top: 50.h,
@@ -132,13 +132,13 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
           Text(
             'Select Date of Birth',
             style: TextStyle(
-              fontSize: 64.sp,
+              fontSize: 16.sp,
               fontFamily: 'britti',
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          SizedBox(height: 50.h),
+          SizedBox(height: 10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -152,7 +152,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 },
                 initialItem: _selectedMonthIndex,
               ),
-              SizedBox(width: 50.w),
+              SizedBox(width: 10.w),
               _buildWheelPicker(
                 controller: _dayController,
                 items: days.map((day) => day.toString()).toList(),
@@ -163,7 +163,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 },
                 initialItem: _selectedDay - 1,
               ),
-              SizedBox(width: 50.w),
+              SizedBox(width: 10.w),
               _buildWheelPicker(
                 controller: _yearController,
                 items: _years.map((year) => year.toString()).toList(),
@@ -176,7 +176,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
               ),
             ],
           ),
-          SizedBox(height: 60.h),
+          SizedBox(height: 20.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -185,14 +185,14 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 child: Text(
                   'Cancel',
                   style: TextStyle(
-                    fontSize: 60.sp,
+                    fontSize: 16.sp,
                     fontFamily: 'britti',
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              SizedBox(width: 40.w),
+              SizedBox(width: 20.w),
               ElevatedButton(
                 onPressed: () {
                   DateTime selectedDate = DateTime(
@@ -205,11 +205,11 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffD3AF37),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 80.w,
-                    vertical: 16.h,
+                    horizontal: 30.w,
+                    vertical: 8.h,
                   ),
                 ),
                 child: Text(
@@ -217,14 +217,13 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                   style: TextStyle(
                     fontFamily: 'britti',
                     color: Colors.white,
-                    fontSize: 60.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 50.h),
         ],
       ),
     );
@@ -237,11 +236,11 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
     required int initialItem,
   }) {
     return Container(
-      width: 350.w,
-      height: 800.h,
+      width: 100.w,
+      height: 200.h,
       decoration: BoxDecoration(
         color: Color(0xffF2DB8F),
-        borderRadius: BorderRadius.circular(30.r),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: ListWheelScrollView.useDelegate(
         controller: controller,
@@ -258,7 +257,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
               child: Text(
                 items[index],
                 style: TextStyle(
-                  fontSize: isSelected ? 56.sp : 48.sp,
+                  fontSize: isSelected ? 16.sp : 12.sp,
                   fontFamily: 'britti',
                   color: isSelected ? Colors.black : Colors.white,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -297,23 +296,23 @@ class CustomDateField extends StatelessWidget {
       style: TextStyle(
         color: Colors.black,
         fontFamily: 'britti',
-        fontSize: 48.sp,
+        fontSize: 16.sp,
       ),
       decoration: InputDecoration(
         hintText: "Your Birthday",
-        hintStyle: TextStyle(color: Colors.black54, fontSize: 48.sp),
+        hintStyle: TextStyle(color: Colors.black54, fontSize: 16.sp),
         filled: true,
         fillColor: const Color(0xffF0ECEC),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),

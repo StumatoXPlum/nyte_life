@@ -59,9 +59,9 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 50.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       child: Container(
-        height: 230.h,
+        height: 90.h,
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -70,15 +70,15 @@ class CustomBottomNavBar extends StatelessWidget {
             end: Alignment.topCenter,
             stops: [0, 1],
           ),
-          borderRadius: BorderRadius.circular(146.r),
+          borderRadius: BorderRadius.circular(52.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildSvgItem("assets/bottom_bar/dining.svg", 0),
-            SizedBox(width: 120.w),
+            SizedBox(width: 40.w),
             _buildSvgItem("assets/bottom_bar/events.svg", 1),
-            SizedBox(width: 120.w),
+            SizedBox(width: 40.w),
             _buildSvgItem("assets/bottom_bar/bookings.svg", 2),
           ],
         ),
@@ -93,9 +93,9 @@ class CustomBottomNavBar extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 18.h),
+            padding: EdgeInsets.only(top: 8.h),
             child: Container(
-              padding: EdgeInsets.all(40.r),
+              padding: EdgeInsets.all(12.r),
               decoration: BoxDecoration(
                 color:
                     isSelected ? const Color(0xffD3AF37) : Colors.transparent,
@@ -103,8 +103,8 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
               child: SvgPicture.asset(
                 asset,
-                width: 64.w,
-                height: 69.h,
+                width: 24.w,
+                height: 30.h,
                 fit: BoxFit.cover,
                 colorFilter:
                     isSelected
@@ -113,7 +113,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 2.h),
           Text(
             index == 0
                 ? "Dining"
@@ -121,7 +121,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 ? "Events"
                 : "Bookings",
             style: TextStyle(
-              fontSize: 48.sp,
+              fontSize: 16.sp,
               fontFamily: 'britti',
               color: isSelected ? const Color(0xffD3AF37) : Colors.white,
               fontWeight: FontWeight.bold,
