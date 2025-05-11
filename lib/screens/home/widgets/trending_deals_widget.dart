@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // Add this in pubspec.yaml
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'; 
 
 class TrendingDealsWidget extends StatefulWidget {
   const TrendingDealsWidget({super.key});
@@ -48,8 +48,6 @@ class _TrendingDealsWidgetState extends State<TrendingDealsWidget> {
 
     return Column(
       children: [
-        Text("Trending Deals", style: TextStyle(fontSize: 30.sp)),
-        SizedBox(height: 10.h),
         SizedBox(
           height: 180.h,
           child: PageView.builder(

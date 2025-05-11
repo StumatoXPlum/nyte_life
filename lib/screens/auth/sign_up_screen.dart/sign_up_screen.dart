@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../user_onboarding/preferences.dart';
+import 'package:nytelife/screens/auth/phone/phone_number.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -29,19 +29,19 @@ class SignUpScreen extends StatelessWidget {
             () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Preferences()),
+                MaterialPageRoute(builder: (context) => PhoneNumber()),
               );
             },
           ),
-          SizedBox(height: 20.h),
-          buildContainer(
-            "assets/apple.svg",
-            "Continue with Apple",
-            Colors.black,
-            Colors.white,
-            Colors.black,
-            () {},
-          ),
+          // SizedBox(height: 20.h),
+          // buildContainer(
+          //   "assets/apple.svg",
+          //   "Continue with Apple",
+          //   Colors.black,
+          //   Colors.white,
+          //   Colors.black,
+          //   () {},
+          // ),
           SizedBox(height: 30.h),
           Text(
             "By entering information, I agree to Hush's Terms of Service, Non-\ndiscrimination Policy and Payments Terms of Service and \nacknowledge the Privacy Policy.",

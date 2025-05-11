@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/header_widget.dart';
+import 'package:nytelife/core/heading_widget.dart';
+import 'package:nytelife/screens/home/widgets/custom_filter.dart';
 import 'package:nytelife/screens/home/widgets/events_near_you_widget.dart';
 import 'package:nytelife/screens/home/widgets/trending_deals_widget.dart';
 
@@ -18,7 +20,13 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 50.h),
             HeaderWidget(),
             SizedBox(height: 20.h),
+            Text("Trending Deals", style: TextStyle(fontSize: 30.sp)),
+            SizedBox(height: 10.h),
             TrendingDealsWidget(),
+            SizedBox(height: 20.h),
+            HeadingWidget(heading: "Places Near You"),
+            SizedBox(height: 20.h),
+            CustomFilter(),
             SizedBox(height: 20.h),
             EventsNearYouWidget(),
           ],

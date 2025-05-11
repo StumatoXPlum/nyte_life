@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../screens/profile/profile.dart';
+import '../screens/user_onboarding/basic_info/widgets/location_service.dart';
 
-class HeaderWidget extends StatelessWidget {
+class HeaderWidget extends StatefulWidget {
   const HeaderWidget({super.key});
+
+  @override
+  State<HeaderWidget> createState() => _HeaderWidgetState();
+}
+
+class _HeaderWidgetState extends State<HeaderWidget> {
+  String currentLocation = 'Fetching...';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLocation();
+  }
+
+  Future<void> fetchLocation() async {
+    try {
+      String location = await LocationService.getAddress();
+      setState(() {
+        currentLocation = location;
+      });
+    } catch (e) {
+      setState(() {
+        currentLocation = 'Location unavailable';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +48,20 @@ class HeaderWidget extends StatelessWidget {
               color: const Color(0xffD3AF37),
             ),
             SizedBox(width: 8.w),
-            Container(
-              height: 40.h,
-              width: 40.w,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xffD3AF37), width: 2),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Profile()),
+                );
+              },
+              child: Container(
+                height: 40.h,
+                width: 40.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xffD3AF37), width: 2),
+                ),
               ),
             ),
             SizedBox(width: 20.w),
@@ -40,7 +76,6 @@ class HeaderWidget extends StatelessWidget {
                 colors: [Color(0xff6D5A1C), Color(0xffD3AF37)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                stops: [0, 1],
               ),
               borderRadius: BorderRadius.circular(36.r),
             ),
@@ -62,7 +97,7 @@ class HeaderWidget extends StatelessWidget {
                   ),
                   SizedBox(width: 8.w),
                   Text(
-                    'Pune, IN',
+                    currentLocation,
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontFamily: 'britti',

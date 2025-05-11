@@ -3,35 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingCubit() : super(OnboardingState());
 
-  void setName(String name) {
-    emit(state.copyWith(name: name));
-  }
+  void setName(String name) => emit(state.copyWith(name: name));
 
   void togglePreference(String preference) {
     final updatedPreferences = Set<String>.from(state.selectedPreferences);
-    if (updatedPreferences.contains(preference)) {
-      updatedPreferences.remove(preference);
-    } else {
-      updatedPreferences.add(preference);
-    }
+    updatedPreferences.contains(preference)
+        ? updatedPreferences.remove(preference)
+        : updatedPreferences.add(preference);
     emit(state.copyWith(selectedPreferences: updatedPreferences));
   }
 
-  void setDrinkingPreference(String preference) {
-    emit(state.copyWith(drinkingPreference: preference));
-  }
+  void setDrinkingPreference(String preference) =>
+      emit(state.copyWith(drinkingPreference: preference));
 
-  void setSmokingPreference(String preference) {
-    emit(state.copyWith(smokingPreference: preference));
-  }
+  void setSmokingPreference(String preference) =>
+      emit(state.copyWith(smokingPreference: preference));
 
-  void setOutdoorSettingPrefrence(String preference) {
-    emit(state.copyWith(outdoorSetting: preference));
-  }
-
-  String? getSelectedFoodOption(String category) {
-    return state.selectedFoodPreferences[category];
-  }
+  void setOutdoorSettingPreference(String preference) =>
+      emit(state.copyWith(outdoorSetting: preference));
 
   void selectFoodPreference(String category, String option) {
     final current = Map<String, String>.from(state.selectedFoodPreferences);
@@ -39,9 +28,17 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     emit(state.copyWith(selectedFoodPreferences: current));
   }
 
-  bool isFoodPreferenceSelected(String category, String option) {
-    return state.selectedFoodPreferences[category] == option;
-  }
+  String? getSelectedFoodOption(String category) =>
+      state.selectedFoodPreferences[category];
+
+  bool isFoodPreferenceSelected(String category, String option) =>
+      state.selectedFoodPreferences[category] == option;
+
+  void setGender(String gender) => emit(state.copyWith(gender: gender));
+
+  void setDateOfBirth(String dob) => emit(state.copyWith(dateOfBirth: dob));
+
+  void setAddress(String address) => emit(state.copyWith(address: address));
 }
 
 class OnboardingState {
@@ -50,8 +47,10 @@ class OnboardingState {
   final String? drinkingPreference;
   final String? smokingPreference;
   final String? outdoorSetting;
-
   final Map<String, String> selectedFoodPreferences;
+  final String? gender;
+  final String? dateOfBirth;
+  final String? address;
 
   OnboardingState({
     this.name = '',
@@ -60,6 +59,9 @@ class OnboardingState {
     this.smokingPreference,
     this.outdoorSetting,
     Map<String, String>? selectedFoodPreferences,
+    this.gender,
+    this.dateOfBirth,
+    this.address,
   }) : selectedPreferences = selectedPreferences ?? {},
        selectedFoodPreferences = selectedFoodPreferences ?? {};
 
@@ -70,6 +72,9 @@ class OnboardingState {
     String? smokingPreference,
     String? outdoorSetting,
     Map<String, String>? selectedFoodPreferences,
+    String? gender,
+    String? dateOfBirth,
+    String? address,
   }) {
     return OnboardingState(
       name: name ?? this.name,
@@ -79,6 +84,9 @@ class OnboardingState {
       outdoorSetting: outdoorSetting ?? this.outdoorSetting,
       selectedFoodPreferences:
           selectedFoodPreferences ?? this.selectedFoodPreferences,
+      gender: gender ?? this.gender,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      address: address ?? this.address,
     );
   }
 }

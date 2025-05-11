@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/constants.dart';
-import 'package:nytelife/screens/home/view/home_screen.dart';
+import 'package:nytelife/core/custom_bottom_bar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -28,8 +28,13 @@ class MyApp extends StatelessWidget {
           (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'NyteLife',
-            home: HomeScreen(),
+            home: CustomBottomBar(),
           ),
     );
   }
+
+  // Widget _getInitialScreen() {
+  //   final user = Supabase.instance.client.auth.currentUser;
+  //   return user != null ? CustomBottomBar() : SignUpScreen();
+  // }
 }

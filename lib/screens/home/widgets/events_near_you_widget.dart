@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../view/home_detail_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -51,45 +50,8 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TriangleShape(direction: TriangleDirection.left),
-            SizedBox(width: 8.w),
-            Text(
-              "Places Near You",
-              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(width: 8.w),
-            TriangleShape(direction: TriangleDirection.right),
-          ],
-        ),
-        SizedBox(height: 20.h),
-
-        Padding(
-          padding: EdgeInsets.only(left: 20.w),
-          child: Row(
-            spacing: 14.w,
-            children: [
-              Container(
-                decoration: BoxDecoration(),
-                child: SvgPicture.asset(
-                  "assets/filter.svg",
-                  height: 15.h,
-                  width: 15.w,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-              FilterWidget(title: "Continental"),
-              FilterWidget(title: "Indian"),
-              FilterWidget(title: "Asian"),
-              FilterWidget(title: "Italian"),
-            ],
-          ),
-        ),
-        SizedBox(height: 20.h),
         ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 120.h),
           itemCount: eventData.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -158,70 +120,4 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
       ],
     );
   }
-}
-
-class FilterWidget extends StatelessWidget {
-  final String title;
-  const FilterWidget({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.black26, width: 1),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16.sp,
-          color: Colors.black,
-          fontFamily: 'britti',
-        ),
-      ),
-    );
-  }
-}
-
-enum TriangleDirection { left, right }
-
-class TriangleShape extends StatelessWidget {
-  final TriangleDirection direction;
-
-  const TriangleShape({super.key, required this.direction});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: _TriangleClipper(direction),
-      child: Container(width: 50.w, height: 10.h, color: Color(0xffD3AF37)),
-    );
-  }
-}
-
-class _TriangleClipper extends CustomClipper<Path> {
-  final TriangleDirection direction;
-
-  _TriangleClipper(this.direction);
-
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    if (direction == TriangleDirection.right) {
-      path.moveTo(0, 0);
-      path.lineTo(size.width, size.height / 2);
-      path.lineTo(0, size.height);
-    } else {
-      path.moveTo(size.width, 0);
-      path.lineTo(0, size.height / 2);
-      path.lineTo(size.width, size.height);
-    }
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

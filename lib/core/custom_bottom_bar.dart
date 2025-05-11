@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nytelife/screens/booking/view/booking_screen.dart';
-import '../screens/event_screen.dart';
+import '../screens/events/view/event_screen.dart';
 import '../screens/home/view/home_screen.dart';
 
 class CustomBottomBar extends StatefulWidget {

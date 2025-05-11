@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomContinue extends StatelessWidget {
   final VoidCallback onTap;
-  const CustomContinue({super.key, required this.onTap});
+  final String? label;
+  const CustomContinue({super.key, required this.onTap, this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class CustomContinue extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Continue",
+              label ?? 'Continue',
               style: TextStyle(
                 fontSize: 16.sp,
                 fontFamily: 'britti',
