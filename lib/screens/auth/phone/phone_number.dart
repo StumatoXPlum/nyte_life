@@ -83,10 +83,22 @@ class _PhoneNumberState extends State<PhoneNumber> {
           );
         }
       } else {
-        print("Failed to send OTP: ${response.body}");
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red.shade600,
+              behavior: SnackBarBehavior.floating,
+              content: Text("Failed to send OTP, Please try again later"),
+            ),
+          );
+        }
       }
     } catch (e) {
-      print("Error sending OTP: $e");
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Error sending OTP: $e")));
+      }
     }
   }
 
@@ -207,23 +219,32 @@ class _PhoneNumberState extends State<PhoneNumber> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomContinue(
-              onTap: () async {
-                setState(() {
-                  isLoading = true;
-                });
-
-                String phone =
-                    "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
-
-                await sendOtp(phone);
-
-                setState(() {
-                  isLoading = false;
-                });
-              },
-              label: 'Send Otp',
-            ),
+            isLoading
+                ? const CircularProgressIndicator(color: Colors.black)
+                : CustomContinue(
+                  onTap: () async {
+                    if (phoneController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.green.shade600,
+                          content: Text("Please enter your phone number"),
+                        ),
+                      );
+                      return;
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+                    String phone =
+                        "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
+                    await sendOtp(phone);
+                    setState(() {
+                      isLoading = false;
+                    });
+                  },
+                  label: 'Send Otp',
+                ),
           ],
         ),
       ),

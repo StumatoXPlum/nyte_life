@@ -59,7 +59,7 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       child: Container(
         height: 90.h,
         width: double.infinity,
