@@ -184,7 +184,15 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 style: TextStyle(fontSize: fontSize * 0.8, color: Colors.black),
               ),
             ),
-            SizedBox(height: size.height * 0.03),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 50.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
             isLoading
                 ? CircularProgressIndicator(color: Colors.black)
                 : CustomContinue(

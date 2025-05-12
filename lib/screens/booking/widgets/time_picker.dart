@@ -10,10 +10,10 @@ class TimePickerService {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
       ),
-      backgroundColor: const Color(0xFF1E2330),
+      backgroundColor: Colors.white,
       builder: (context) {
         return _CustomTimePicker(
           onTimeSelected: (selectedTime) {
@@ -106,8 +106,9 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
             'Select Time',
             style: TextStyle(
               fontSize: fontSize * 1.2,
+              fontFamily: 'britti',
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           SizedBox(height: size.height * 0.02),
@@ -151,16 +152,18 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                       Text(
                         'AM',
                         style: TextStyle(
-                          color: !_isPM ? Colors.white : Colors.white54,
+                          color: !_isPM ? Colors.black : Colors.black26,
                           fontWeight: FontWeight.w600,
+                          fontFamily: 'britti',
                         ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       Text(
                         'PM',
                         style: TextStyle(
-                          color: _isPM ? Colors.white : Colors.white54,
+                          color: _isPM ? Colors.black : Colors.black26,
                           fontWeight: FontWeight.w600,
+                          fontFamily: 'britti',
                         ),
                       ),
                     ],
@@ -178,7 +181,7 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                 child: Text(
                   'Cancel',
                   style: TextStyle(
-                    color: Colors.white54,
+                    color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -196,9 +199,9 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF3579DD),
+                  backgroundColor: const Color(0xffD3AF37),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: padding * 2,
@@ -208,6 +211,7 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                 child: Text(
                   'Select',
                   style: TextStyle(
+                    fontFamily: 'britti',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -231,8 +235,8 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
       width: size.width * 0.25,
       height: size.height * 0.2,
       decoration: BoxDecoration(
-        color: const Color(0xFF2C3340),
-        borderRadius: BorderRadius.circular(15),
+        color: const Color(0xffF2DB8F),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -240,7 +244,7 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
           IconButton(
             icon: Icon(
               Icons.keyboard_arrow_up,
-              color: Colors.white,
+              color: Colors.black,
               size: size.height * 0.04,
             ),
             onPressed: onIncrement,
@@ -249,14 +253,15 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
             value.toString().padLeft(2, '0'),
             style: TextStyle(
               fontSize: size.height * 0.04,
-              color: Colors.white,
+              color: Colors.black,
+              fontFamily: 'britti',
               fontWeight: FontWeight.bold,
             ),
           ),
           IconButton(
             icon: Icon(
               Icons.keyboard_arrow_down,
-              color: Colors.white,
+              color: Colors.black,
               size: size.height * 0.04,
             ),
             onPressed: onDecrement,
@@ -290,8 +295,9 @@ class CustomTimeField extends StatelessWidget {
           ),
       style: TextStyle(
         color: Colors.black,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
+        fontSize: 16.sp,
+        fontFamily: 'britti',
+        fontWeight: FontWeight.bold,
       ),
       decoration: InputDecoration(
         filled: true,

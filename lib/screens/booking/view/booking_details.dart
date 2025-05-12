@@ -114,6 +114,11 @@ class _BookingDetailsState extends State<BookingDetails> {
                 SizedBox(
                   width: 150.w,
                   child: TextField(
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'britti',
+                      fontWeight: FontWeight.bold,
+                    ),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       filled: true,

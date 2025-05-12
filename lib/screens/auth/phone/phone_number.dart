@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/core/custom_continue.dart';
-import 'package:nytelife/screens/auth/phone/country_picker.dart';
+import '../../../core/custom_back_button.dart';
+import '../../../core/custom_continue.dart';
+import 'country_picker.dart';
 import '../../../core/constants.dart';
 import 'phone_verification.dart';
 
@@ -197,31 +197,35 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     ),
                   ],
                 ),
-                SizedBox(height: size.height * 0.07),
-                Align(
-                  alignment: Alignment.center,
-                  child: CustomContinue(
-                    onTap: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-
-                      String phone =
-                          "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
-
-                      await sendOtp(phone);
-
-                      setState(() {
-                        isLoading = false;
-                      });
-                    },
-                    label: 'Send Otp',
-                  ),
-                ),
               ],
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 50.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomContinue(
+              onTap: () async {
+                setState(() {
+                  isLoading = true;
+                });
+
+                String phone =
+                    "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
+
+                await sendOtp(phone);
+
+                setState(() {
+                  isLoading = false;
+                });
+              },
+              label: 'Send Otp',
+            ),
+          ],
+        ),
       ),
     );
   }

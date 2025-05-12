@@ -154,7 +154,8 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
             style: TextStyle(
               fontSize: fontSize * 1.2,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              fontFamily: 'britti',
+              color: Colors.black,
             ),
           ),
           SizedBox(height: size.height * 0.02),
@@ -220,7 +221,9 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 child: Text(
                   'Cancel',
                   style: TextStyle(
-                    color: Colors.white54,
+                    fontSize: 18.sp,
+                    fontFamily: 'britti',
+                    color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -241,20 +244,24 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          backgroundColor: const Color(0xFF1E2330),
+                          backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           title: Text(
                             "Invalid Date",
                             style: TextStyle(
-                              color: Colors.white,
+                              fontFamily: 'britti',
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           content: Text(
                             "You cant select a past date.",
-                            style: TextStyle(color: Colors.white70),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'britti',
+                            ),
                           ),
                           actions: [
                             TextButton(
@@ -262,9 +269,10 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                               child: Text(
                                 "OK",
                                 style: TextStyle(
-                                  color: const Color(0xFF3579DD),
+                                  color: const Color(0xffD3AF37),
                                   fontWeight: FontWeight.bold,
                                   fontSize: fontSize * 1,
+                                  fontFamily: 'britti',
                                 ),
                               ),
                             ),
@@ -277,9 +285,9 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF3579DD),
+                  backgroundColor: const Color(0xffD3AF37),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: padding * 2,
@@ -290,6 +298,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                   'Select',
                   style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'britti',
                     fontSize: fontSize * 0.9,
                     fontWeight: FontWeight.bold,
                   ),
@@ -315,8 +324,8 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
       width: size.width * 0.25,
       height: size.height * 0.3,
       decoration: BoxDecoration(
-        color: const Color(0xFF2C3340),
-        borderRadius: BorderRadius.circular(15),
+        color: const Color(0xffF2DB8F),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: ListWheelScrollView.useDelegate(
         controller: controller,
@@ -336,8 +345,9 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
               child: Text(
                 items[index],
                 style: TextStyle(
-                  fontSize: isSelected ? 24 : 18,
-                  color: isSelected ? Colors.white : Colors.white54,
+                  fontSize: isSelected ? 16.sp : 12.sp,
+                  fontFamily: 'britti',
+                  color: isSelected ? Colors.black : Colors.white,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
@@ -376,7 +386,8 @@ class DateSlotField extends StatelessWidget {
       style: TextStyle(
         color: Colors.black,
         fontSize: fontSize,
-        fontWeight: FontWeight.w500,
+        fontFamily: 'britti',
+        fontWeight: FontWeight.bold,
       ),
       decoration: InputDecoration(
         filled: true,
