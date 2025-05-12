@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomContinue extends StatelessWidget {
   final VoidCallback onTap;
   final String? label;
+
   const CustomContinue({super.key, required this.onTap, this.label});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 150.w,
-        height: 40.h,
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(8.r),
+    return SizedBox(
+      width: 150.w,
+      height: 40.h,
+      child: ElevatedButton(
+        onPressed: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 4,
+          shadowColor: Colors.black54,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,8 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/core/custom_continue.dart';
+import 'package:nytelife/core/custom_widgets/custom_back_button.dart';
+import 'package:nytelife/core/custom_widgets/custom_continue.dart';
 
 class ChooseCountryScreen extends StatefulWidget {
   const ChooseCountryScreen({super.key});

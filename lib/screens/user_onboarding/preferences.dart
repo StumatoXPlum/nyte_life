@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/core/custom_back_button.dart';
-import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
-import 'package:nytelife/screens/user_onboarding/page_view_screen.dart';
+import '../../core/custom_widgets/custom_back_button.dart';
+import '../../core/custom_widgets/custom_continue.dart';
+import 'page_view_screen.dart';
 
 class Preferences extends StatelessWidget {
   const Preferences({super.key});
@@ -33,48 +32,20 @@ class Preferences extends StatelessWidget {
             padding: EdgeInsets.only(left: 30.w),
             child: Text(
               "We want to gather Data so we can curate \na perfect nightlife experience \nthat matches what you want :)",
-              style: TextStyle(fontSize: 22.sp, fontFamily: 'britti'),
+              style: TextStyle(fontSize: 20.sp, fontFamily: 'britti'),
             ),
           ),
           SizedBox(height: 200.h),
           Padding(
             padding: EdgeInsets.only(left: 30.w),
-            child: GestureDetector(
+            child: CustomContinue(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => BlocProvider(
-                          create: (context) => OnboardingCubit(),
-                          child: PageViewScreen(),
-                        ),
-                  ),
+                  MaterialPageRoute(builder: (context) => PageViewScreen()),
                 );
               },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Agree, Let's Do it",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: 'britti',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
-                    Icon(Icons.arrow_forward, size: 16.sp, color: Colors.white),
-                  ],
-                ),
-              ),
+              label: "Agree, Let's Do it",
             ),
           ),
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/screens/booking/view/booking_screen.dart';
-import '../../../core/header_widget.dart';
+import '../../../core/custom_widgets/header_widget.dart';
 import '../widgets/date_picker.dart';
 import '../widgets/time_picker.dart';
 

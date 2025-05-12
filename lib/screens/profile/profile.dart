@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../core/custom_back_button.dart';
+import '../../core/custom_widgets/custom_back_button.dart';
 import '../auth/sign_up_screen.dart/sign_up_screen.dart';
 
 class Profile extends StatelessWidget {

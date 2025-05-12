@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../core/custom_bottom_bar.dart';
-import '../../../core/header_widget.dart';
+import '../../../core/custom_widgets/custom_bottom_bar.dart';
+import '../../../core/custom_widgets/header_widget.dart';
 
 class BookingScreen extends StatelessWidget {
   const BookingScreen({super.key});

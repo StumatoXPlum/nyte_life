@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/core/custom_bottom_bar.dart';
-import '../../core/custom_back_button.dart';
-import '../../core/custom_continue.dart';
+import 'package:nytelife/core/custom_widgets/custom_bottom_bar.dart';
+import '../../core/custom_widgets/custom_back_button.dart';
+import '../../core/custom_widgets/custom_continue.dart';
 import 'cubit/on_boarding_cubit.dart';
 import 'page_view_screen.dart';
 

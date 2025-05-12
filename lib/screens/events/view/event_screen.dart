@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../core/header_widget.dart';
-import '../../../core/heading_widget.dart';
+import '../../../core/custom_widgets/header_widget.dart';
+import '../../../core/custom_widgets/heading_widget.dart';
 import '../widgets/filter.dart';
 import '../widgets/gigs_widget.dart';
 import '../widgets/good_events.dart';

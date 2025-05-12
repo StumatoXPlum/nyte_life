@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/core/header_widget.dart';
+import 'package:nytelife/core/custom_widgets/header_widget.dart';
 import 'package:nytelife/screens/booking/view/booking_details.dart';
 
 class EventDetailScreen extends StatelessWidget {

@@ -1,40 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/profile/profile.dart';
-import '../screens/user_onboarding/basic_info/widgets/location_service.dart';
+import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
+import '../../screens/profile/profile.dart';
 
-class HeaderWidget extends StatefulWidget {
+class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
 
   @override
-  State<HeaderWidget> createState() => _HeaderWidgetState();
-}
-
-class _HeaderWidgetState extends State<HeaderWidget> {
-  String currentLocation = 'Fetching...';
-
-  @override
-  void initState() {
-    super.initState();
-    fetchLocation();
-  }
-
-  Future<void> fetchLocation() async {
-    try {
-      String location = await LocationService.getAddress();
-      setState(() {
-        currentLocation = location;
-      });
-    } catch (e) {
-      setState(() {
-        currentLocation = 'Location unavailable';
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final address = context.select(
+      (OnboardingCubit cubit) => cubit.state.address,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,7 +75,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                   ),
                   SizedBox(width: 8.w),
                   Text(
-                    currentLocation,
+                    address ?? 'Location not set',
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontFamily: 'britti',
