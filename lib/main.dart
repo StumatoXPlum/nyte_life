@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
-import 'package:nytelife/screens/user_onboarding/preferences.dart';
+import 'screens/auth/sign_up_screen.dart/sign_up_screen.dart';
+import 'screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import 'core/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'NyteLife',
-            home: Preferences(),
+            home: SignUpScreen(),
           ),
     );
   }
