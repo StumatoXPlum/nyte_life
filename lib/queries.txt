@@ -1,0 +1,52 @@
+// events near you
+create table public.events_near_you (
+  id uuid not null default gen_random_uuid (),
+  image_name text not null,
+  image_url text not null,
+  created_at timestamp without time zone null default now(),
+  title text null,
+  description text null,
+  rating double precision null,
+  constraint events_near_you_pkey primary key (id)
+) TABLESPACE pg_default;
+
+
+// gig images table
+create table public.gig_images (
+  id serial not null,
+  name text not null,
+  url text not null,
+  title text null,
+  rating text null,
+  description text null,
+  constraint gig_images_pkey primary key (id)
+) TABLESPACE pg_default;
+
+// good events images
+create table public.good_events_images (
+  id serial not null,
+  name text not null,
+  url text not null,
+  constraint good_events_images_pkey primary key (id)
+) TABLESPACE pg_default;
+
+// trending deals
+create table public.trending_deals (
+  id uuid not null default gen_random_uuid (),
+  image_name text not null,
+  image_url text not null,
+  created_at timestamp without time zone null default now(),
+  constraint trending_deals_pkey primary key (id)
+) TABLESPACE pg_default;
+
+// users
+create table public.users (
+  id uuid not null default gen_random_uuid (),
+  phone_number text null,
+  name text null,
+  date_of_birth text null,
+  gender text null,
+  location text null,
+  email text null,
+  constraint users_pkey primary key (id)
+) TABLESPACE pg_default;
