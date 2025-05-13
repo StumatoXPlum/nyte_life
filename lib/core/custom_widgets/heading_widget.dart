@@ -7,18 +7,26 @@ class HeadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TriangleShape(direction: TriangleDirection.left),
-        SizedBox(width: 8.w),
-        Text(
-          heading,
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(width: 8.w),
-        TriangleShape(direction: TriangleDirection.right),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TriangleShape(direction: TriangleDirection.left),
+          SizedBox(width: 8.w),
+          Flexible(
+            child: Text(
+              heading,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(width: 8.w),
+          TriangleShape(direction: TriangleDirection.right),
+        ],
+      ),
     );
   }
 }
@@ -32,9 +40,16 @@ class TriangleShape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double triangleWidth = 30.w.clamp(20, 40);
+    double triangleHeight = 10.h.clamp(6, 12);
+
     return ClipPath(
       clipper: _TriangleClipper(direction),
-      child: Container(width: 50.w, height: 10.h, color: Color(0xffD3AF37)),
+      child: Container(
+        width: triangleWidth,
+        height: triangleHeight,
+        color: const Color(0xffD3AF37),
+      ),
     );
   }
 }
@@ -61,5 +76,5 @@ class _TriangleClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

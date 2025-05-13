@@ -372,8 +372,6 @@ class DateSlotField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    double fontSize = size.width * 0.05;
     return TextField(
       controller: controller,
       readOnly: true,
@@ -385,7 +383,7 @@ class DateSlotField extends StatelessWidget {
           ),
       style: TextStyle(
         color: Colors.black,
-        fontSize: fontSize,
+        fontSize: 16.sp,
         fontFamily: 'britti',
         fontWeight: FontWeight.bold,
       ),

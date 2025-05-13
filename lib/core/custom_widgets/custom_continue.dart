@@ -31,12 +31,14 @@ class CustomContinue extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              label ?? 'Continue',
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontFamily: 'britti',
-                color: Colors.white,
+            Expanded(
+              child: Text(
+                label ?? 'Continue',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: 'britti',
+                  color: Colors.white,
+                ),
               ),
             ),
             Icon(Icons.arrow_forward, size: 16.sp, color: Colors.white),

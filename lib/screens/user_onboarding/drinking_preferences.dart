@@ -118,72 +118,80 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomBackButton(onTap: widget.goToPrevious),
-          SizedBox(height: 50.h),
-          Center(
-            child: CustomPageIndicator(
-              controller: widget.pageController,
-              pageCount: 3,
-            ),
-          ),
-          SizedBox(height: 22.h),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Please tell us a bit about your \nDrinking Preferences",
-              style: TextStyle(
-                fontSize: 26.sp,
-                fontFamily: 'britti',
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomBackButton(onTap: widget.goToPrevious),
+            SizedBox(height: 50.h),
+            Center(
+              child: CustomPageIndicator(
+                controller: widget.pageController,
+                pageCount: 3,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          SizedBox(height: 20.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildYesNoOption("Are you a drinker?", drinkingAnswer, (
-                  answer,
-                ) {
-                  context.read<OnboardingCubit>().setDrinkingPreference(answer);
-                  setState(() {
-                    drinkingAnswer = answer;
-                  });
-                }),
-                buildYesNoOption("Are you a smoker?", smokingAnswer, (answer) {
-                  context.read<OnboardingCubit>().setSmokingPreference(answer);
-                  setState(() {
-                    smokingAnswer = answer;
-                  });
-                }),
-                SizedBox(height: 40.h),
-                Text(
-                  "Can you describe your ideal outdoor setting?",
-                  style: TextStyle(
-                    color: Color(0xffD3AF37),
-                    fontSize: 18.sp,
-                    fontFamily: 'britti',
-                    fontWeight: FontWeight.bold,
-                  ),
+            SizedBox(height: 22.h),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Please tell us a bit about your \nDrinking Preferences",
+                style: TextStyle(
+                  fontSize: 26.sp,
+                  fontFamily: 'britti',
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 20.h),
-                ...outdoorSetting.map(
-                  (option) => buildOutdoorOption(
-                    option,
-                    selectedOutdoorSettings,
-                    toggleOutdoorSettingSelection,
-                  ),
-                ),
-              ],
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 20.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildYesNoOption("Are you a drinker?", drinkingAnswer, (
+                    answer,
+                  ) {
+                    context.read<OnboardingCubit>().setDrinkingPreference(
+                      answer,
+                    );
+                    setState(() {
+                      drinkingAnswer = answer;
+                    });
+                  }),
+                  buildYesNoOption("Are you a smoker?", smokingAnswer, (
+                    answer,
+                  ) {
+                    context.read<OnboardingCubit>().setSmokingPreference(
+                      answer,
+                    );
+                    setState(() {
+                      smokingAnswer = answer;
+                    });
+                  }),
+                  SizedBox(height: 40.h),
+                  Text(
+                    "Can you describe your ideal outdoor setting?",
+                    style: TextStyle(
+                      color: Color(0xffD3AF37),
+                      fontSize: 18.sp,
+                      fontFamily: 'britti',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  ...outdoorSetting.map(
+                    (option) => buildOutdoorOption(
+                      option,
+                      selectedOutdoorSettings,
+                      toggleOutdoorSettingSelection,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 50.h),
