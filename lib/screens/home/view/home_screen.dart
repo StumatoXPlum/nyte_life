@@ -20,7 +20,10 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 50.h),
             HeaderWidget(),
             SizedBox(height: 20.h),
-            Text("Trending Deals", style: TextStyle(fontSize: 30.sp)),
+            Text(
+              "Trending Deals",
+              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10.h),
             TrendingDealsWidget(),
             SizedBox(height: 20.h),

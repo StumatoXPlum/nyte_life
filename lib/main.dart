@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nytelife/core/custom_widgets/custom_bottom_bar.dart';
 import 'screens/auth/sign_up_screen.dart/sign_up_screen.dart';
 import 'screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import 'core/constants.dart';
@@ -40,13 +41,13 @@ class MyApp extends StatelessWidget {
           (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'NyteLife',
-            home: SignUpScreen(),
+            home: _getInitialScreen(),
           ),
     );
   }
 
-  // Widget _getInitialScreen() {
-  //   final user = Supabase.instance.client.auth.currentUser;
-  //   return user != null ? CustomBottomBar() : SignUpScreen();
-  // }
+  Widget _getInitialScreen() {
+    final user = Supabase.instance.client.auth.currentUser;
+    return user != null ? CustomBottomBar() : SignUpScreen();
+  }
 }

@@ -5,8 +5,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nytelife/screens/user_onboarding/cubit/on_boarding_cubit.dart';
 import '../../screens/profile/profile.dart';
 
-class HeaderWidget extends StatelessWidget {
+class HeaderWidget extends StatefulWidget {
   const HeaderWidget({super.key});
+
+  @override
+  State<HeaderWidget> createState() => _HeaderWidgetState();
+}
+
+class _HeaderWidgetState extends State<HeaderWidget> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OnboardingCubit>().fetchUserAddress();
+  }
 
   @override
   Widget build(BuildContext context) {

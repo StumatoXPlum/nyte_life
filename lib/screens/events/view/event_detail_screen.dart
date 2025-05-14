@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/custom_widgets/header_widget.dart';
 import 'package:nytelife/screens/booking/view/booking_details.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EventDetailScreen extends StatelessWidget {
   final Map<String, dynamic> event;
@@ -11,6 +12,8 @@ class EventDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customPadding = EdgeInsets.symmetric(horizontal: 20.w);
+        final userId = Supabase.instance.client.auth.currentUser?.id ?? '';
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -136,6 +139,8 @@ class EventDetailScreen extends StatelessWidget {
                         (context) => BookingDetails(
                           onDateSlotChanged: (String selectedDate) {},
                           onTimeSlotChanged: (String selectedTime) {},
+                          event: event,
+                          userId: userId,
                         ),
                   ),
                 );

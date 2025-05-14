@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingCubit() : super(OnboardingState());
+
+  final SupabaseClient supabase = Supabase.instance.client;
 
   void setName(String name) => emit(state.copyWith(name: name));
 
@@ -50,6 +53,26 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   void setAddress(String address) => emit(state.copyWith(address: address));
 
+  Future<void> fetchUserAddress() async {
+    try {
+      final user = supabase.auth.currentUser;
+      if (user == null) return;
+
+      final response =
+          await supabase
+              .from('users')
+              .select('location')
+              .eq('id', user.id)
+              .maybeSingle();
+
+      if (response != null && response['location'] != null) {
+        emit(state.copyWith(address: response['location']));
+      }
+    } catch (e) {
+      print('Error fetching location: $e');
+    }
+  }
+
   void setFoodPreferences(Map<String, String> foodPreferences) {
     emit(state.copyWith(selectedFoodPreferences: foodPreferences));
   }
@@ -65,7 +88,7 @@ class OnboardingState {
   final String? gender;
   final String? dateOfBirth;
   final String? address;
-  final Set<String> selectedCuisines; 
+  final Set<String> selectedCuisines;
 
   OnboardingState({
     this.name = '',
@@ -77,10 +100,10 @@ class OnboardingState {
     this.gender,
     this.dateOfBirth,
     this.address,
-    Set<String>? selectedCuisines, 
+    Set<String>? selectedCuisines,
   }) : selectedPreferences = selectedPreferences ?? {},
        selectedFoodPreferences = selectedFoodPreferences ?? {},
-       selectedCuisines = selectedCuisines ?? {}; 
+       selectedCuisines = selectedCuisines ?? {};
 
   OnboardingState copyWith({
     String? name,
@@ -92,7 +115,7 @@ class OnboardingState {
     String? gender,
     String? dateOfBirth,
     String? address,
-    Set<String>? selectedCuisines, 
+    Set<String>? selectedCuisines,
   }) {
     return OnboardingState(
       name: name ?? this.name,
@@ -105,8 +128,7 @@ class OnboardingState {
       gender: gender ?? this.gender,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       address: address ?? this.address,
-      selectedCuisines:
-          selectedCuisines ?? this.selectedCuisines,
+      selectedCuisines: selectedCuisines ?? this.selectedCuisines,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/custom_widgets/custom_bottom_bar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/custom_widgets/header_widget.dart';
 import '../widgets/date_picker.dart';
 import '../widgets/time_picker.dart';
@@ -8,11 +9,15 @@ import '../widgets/time_picker.dart';
 class BookingDetails extends StatefulWidget {
   final ValueChanged<String> onDateSlotChanged;
   final ValueChanged<String> onTimeSlotChanged;
+  final Map<String, dynamic> event;
+  final String userId;
 
   const BookingDetails({
     super.key,
     required this.onDateSlotChanged,
     required this.onTimeSlotChanged,
+    required this.event,
+    required this.userId,
   });
 
   @override
@@ -22,6 +27,9 @@ class BookingDetails extends StatefulWidget {
 class _BookingDetailsState extends State<BookingDetails> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _slotController = TextEditingController();
+  String selectedDate = '';
+  String selectedTime = '';
+  String numPeople = '';
 
   @override
   void dispose() {
@@ -65,7 +73,12 @@ class _BookingDetailsState extends State<BookingDetails> {
                   width: 150.w,
                   child: DateSlotField(
                     controller: _dateController,
-                    onDateChanged: widget.onDateSlotChanged,
+                    onDateChanged: (value) {
+                      widget.onDateSlotChanged(value);
+                      setState(() {
+                        selectedDate = value;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -90,7 +103,12 @@ class _BookingDetailsState extends State<BookingDetails> {
                   width: 150.w,
                   child: CustomTimeField(
                     controller: _slotController,
-                    onTimeChanged: widget.onTimeSlotChanged,
+                    onTimeChanged: (value) {
+                      widget.onTimeSlotChanged(value);
+                      setState(() {
+                        selectedTime = value;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -132,6 +150,11 @@ class _BookingDetailsState extends State<BookingDetails> {
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        numPeople = value;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -139,14 +162,39 @@ class _BookingDetailsState extends State<BookingDetails> {
           ),
           Spacer(),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
+              if (selectedDate.isEmpty ||
+                  selectedTime.isEmpty ||
+                  numPeople.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please fill all fields')),
+                );
+                return;
+              }
+
+              final response =
+                  await Supabase.instance.client
+                      .from('bookings')
+                      .insert({
+                        'user_id': widget.userId,
+                        'restaurant_name': widget.event['title'],
+                        'date': selectedDate,
+                        'time': selectedTime,
+                        'num_people': int.parse(numPeople),
+                      })
+                      .select()
+                      .single();
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CustomBottomBar(initialIndex: 2),
+                  builder:
+                      (context) =>
+                          CustomBottomBar(booking: response, initialIndex: 2),
                 ),
               );
             },
+
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
               decoration: BoxDecoration(

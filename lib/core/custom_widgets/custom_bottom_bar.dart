@@ -7,8 +7,9 @@ import '../../screens/home/view/home_screen.dart';
 
 class CustomBottomBar extends StatefulWidget {
   final int initialIndex;
+  final Map<String, dynamic>? booking;
 
-  const CustomBottomBar({super.key, this.initialIndex = 0});
+  const CustomBottomBar({super.key, this.initialIndex = 0, this.booking});
 
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
@@ -23,6 +24,7 @@ class CustomBottomBarState extends State<CustomBottomBar>
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    _screens = [HomeScreen(), EventScreen(), BookingScreen()];
     _screens = [HomeScreen(), EventScreen(), BookingScreen()];
   }
 
