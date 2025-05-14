@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/custom_widgets/custom_bottom_bar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/custom_widgets/custom_back_button.dart';
 import '../../core/custom_widgets/custom_continue.dart';
-import 'cubit/on_boarding_cubit.dart';
 import 'page_view_screen.dart';
 
 class DrinkingPreferences extends StatefulWidget {
@@ -25,12 +24,30 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
   String? smokingAnswer;
   Set<String> selectedOutdoorSettings = {};
 
-  final List<String> outdoorSetting = [
-    'Outdoor',
-    'Indoor',
-    'Open Spaces',
-    'Rooftop',
-  ];
+  List<Map<String, dynamic>> questions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuestions();
+  }
+
+  Future<void> _fetchQuestions() async {
+    try {
+      print('Fetching questions from Supabase...');
+      final response =
+          await Supabase.instance.client.from('drinking_preferences').select();
+
+      print('Response received: $response');
+
+      setState(() {
+        questions = List<Map<String, dynamic>>.from(response);
+      });
+      print('Questions loaded: ${questions.length}');
+    } catch (e) {
+      print('Exception while fetching questions: $e');
+    }
+  }
 
   void toggleOutdoorSettingSelection(String option) {
     setState(() {
@@ -114,6 +131,35 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
     );
   }
 
+  Future<void> _savePreferences() async {
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId == null) {
+      print("No user logged in.");
+      return;
+    }
+
+    final preferences = {
+      'drinking': drinkingAnswer,
+      'smoking': smokingAnswer,
+      'outdoor_settings': selectedOutdoorSettings.toList(),
+    };
+
+    try {
+      final response = await Supabase.instance.client
+          .from('users')
+          .update({'preferences': preferences})
+          .eq('id', userId);
+
+      if (response.error != null) {
+        print('Error saving preferences: ${response.error!.message}');
+      } else {
+        print('Preferences saved successfully');
+      }
+    } catch (e) {
+      print('Exception saving preferences: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +180,7 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                "Please tell us a bit about your \nDrinking Preferences",
+                "Please tell us a bit about your Drinking Preferences",
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontFamily: 'britti',
@@ -149,44 +195,63 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildYesNoOption("Are you a drinker?", drinkingAnswer, (
-                    answer,
-                  ) {
-                    context.read<OnboardingCubit>().setDrinkingPreference(
-                      answer,
-                    );
-                    setState(() {
-                      drinkingAnswer = answer;
-                    });
-                  }),
-                  buildYesNoOption("Are you a smoker?", smokingAnswer, (
-                    answer,
-                  ) {
-                    context.read<OnboardingCubit>().setSmokingPreference(
-                      answer,
-                    );
-                    setState(() {
-                      smokingAnswer = answer;
-                    });
-                  }),
-                  SizedBox(height: 40.h),
-                  Text(
-                    "Can you describe your ideal outdoor setting?",
-                    style: TextStyle(
-                      color: Color(0xffD3AF37),
-                      fontSize: 18.sp,
-                      fontFamily: 'britti',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  ...outdoorSetting.map(
-                    (option) => buildOutdoorOption(
-                      option,
-                      selectedOutdoorSettings,
-                      toggleOutdoorSettingSelection,
-                    ),
-                  ),
+                  if (questions.isNotEmpty) ...[
+                    for (Map<String, dynamic> questionData in questions) ...[
+                      if (questionData['question_type'] == 'Text') ...[
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
+                          child: Text(
+                            questionData['question'] ?? '',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontFamily: 'britti',
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xffD3AF37),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ] else if (questionData['question_type'] == 'Yes/No') ...[
+                        buildYesNoOption(
+                          questionData['question'] as String,
+                          questionData['question'] == "Are you a drinker?"
+                              ? drinkingAnswer
+                              : smokingAnswer,
+                          (answer) {
+                            setState(() {
+                              if (questionData['question'] ==
+                                  "Are you a drinker?") {
+                                drinkingAnswer = answer;
+                              } else if (questionData['question'] ==
+                                  "Are you a smoker?") {
+                                smokingAnswer = answer;
+                              }
+                            });
+                          },
+                        ),
+                      ] else if (questionData['question_type'] ==
+                          'Multiple Choice') ...[
+                        SizedBox(height: 20.h),
+                        Text(
+                          questionData['question'] as String,
+                          style: TextStyle(
+                            color: Color(0xffD3AF37),
+                            fontSize: 18.sp,
+                            fontFamily: 'britti',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        ...List<String>.from(questionData['options'] ?? []).map(
+                          (option) => buildOutdoorOption(
+                            option,
+                            selectedOutdoorSettings,
+                            toggleOutdoorSettingSelection,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ],
                 ],
               ),
             ),
@@ -200,7 +265,8 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomContinue(
-              onTap: () {
+              onTap: () async {
+                await _savePreferences();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CustomBottomBar()),

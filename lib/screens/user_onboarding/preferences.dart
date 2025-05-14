@@ -9,6 +9,8 @@ class Preferences extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    double fontSize = size.width * 0.05;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -17,27 +19,28 @@ class Preferences extends StatelessWidget {
           CustomBackButton(onTap: () => Navigator.pop(context)),
           SizedBox(height: 70.h),
           Padding(
-            padding: EdgeInsets.only(left: 30.w),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Text(
-              "Please tell us a bit about your \nouting preferences",
+              "Please tell us a bit about your outing preferences",
               style: TextStyle(
-                fontSize: 22.sp,
+                fontSize: fontSize * 1.6,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'britti',
+                height: 1.0,
               ),
             ),
           ),
           SizedBox(height: 24.h),
           Padding(
-            padding: EdgeInsets.only(left: 30.w),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Text(
-              "We want to gather Data so we can curate \na perfect nightlife experience \nthat matches what you want :)",
-              style: TextStyle(fontSize: 20.sp, fontFamily: 'britti'),
+              "We want to gather Data so we can curate a perfect nightlife experience that matches what you want :)",
+              style: TextStyle(fontSize: fontSize, fontFamily: 'britti', height: 1.2),
             ),
           ),
           SizedBox(height: 200.h),
           Padding(
-            padding: EdgeInsets.only(left: 30.w),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: CustomContinue(
               onTap: () {
                 Navigator.push(

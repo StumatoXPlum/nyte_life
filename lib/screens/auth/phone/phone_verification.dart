@@ -41,54 +41,35 @@ class _PhoneVerificationState extends State<PhoneVerification> {
     BuildContext context,
   ) async {
     try {
-      const String twilioAccountSID = AppSecrets.twilioAccountSID;
-      const String twilioAuthToken = AppSecrets.twilioAuthToken;
-      const String twilioServiceSid = AppSecrets.twilioServiceSid;
+      final supabase = Supabase.instance.client;
 
-      final Uri url = Uri.parse(
-        "https://verify.twilio.com/v2/Services/$twilioServiceSid/VerificationCheck",
+      final response = await supabase.auth.verifyOTP(
+        type: OtpType.sms,
+        phone: phoneNumber,
+        token: otpCode,
       );
 
-      final String basicAuth =
-          'Basic ${base64Encode(utf8.encode('$twilioAccountSID:$twilioAuthToken'))}';
+      final user = response.user;
 
-      print("Verifying OTP $otpCode for $phoneNumber");
+      if (user != null) {
+        // You can also store the phone number if not already stored
+        await supabase.from('users').upsert({
+          'id': user.id,
+          'phone_number': phoneNumber,
+        });
 
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization': basicAuth,
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: {'To': phoneNumber, 'Code': otpCode},
-      );
-
-      print("Status: ${response.statusCode}");
-      print("Body: ${response.body}");
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        final responseData = jsonDecode(response.body);
-
-        if (responseData['status'] == 'approved') {
-          final supabase = Supabase.instance.client;
-
-          await supabase.from('users').upsert({'phone_number': phoneNumber});
-
-          if (context.mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Preferences()),
-            );
-          }
-        } else {
-          showError("OTP not approved. Please check again.");
+        if (context.mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Preferences()),
+          );
         }
       } else {
-        showError("Verification failed. Please try again.");
+        showError("OTP verification failed.");
       }
     } catch (e) {
-      print("Error: $e");
-      showError("Something went wrong. Please try again.");
+      print("Verification error: $e");
+      showError("Invalid OTP or something went wrong.");
     }
   }
 
@@ -145,9 +126,11 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               child: Text(
                 "Verify your phone number",
                 style: TextStyle(
-                  fontSize: fontSize * 1.8,
+                  fontSize: fontSize * 1.6,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'britti',
                   color: Colors.black,
+                  height: 1.0,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -157,7 +140,11 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               padding: EdgeInsets.symmetric(horizontal: 30.w),
               child: Text(
                 "We've sent an SMS with an activation code to your phone ${widget.phoneNumber}",
-                style: TextStyle(fontSize: fontSize, color: Colors.black),
+                style: TextStyle(
+                  fontSize: fontSize,
+                  color: Colors.black,
+                  fontFamily: 'britti',
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -179,9 +166,29 @@ class _PhoneVerificationState extends State<PhoneVerification> {
             SizedBox(height: size.height * 0.03),
             TextButton(
               onPressed: resendOtp,
-              child: Text(
-                "Didn't receive code? Resend",
-                style: TextStyle(fontSize: fontSize * 0.8, color: Colors.black),
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 16.sp, fontFamily: 'britti'),
+                  children: [
+                    TextSpan(
+                      text: "Didn't receive code? ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.sp,
+                        fontFamily: 'britti',
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Resend',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: 'britti',
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

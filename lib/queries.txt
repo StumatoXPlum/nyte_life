@@ -50,3 +50,22 @@ create table public.users (
   email text null,
   constraint users_pkey primary key (id)
 ) TABLESPACE pg_default;
+
+// fodd food_preferences
+create table public.food_preferences (
+  id serial not null,
+  category character varying(255) not null,
+  option character varying(255) not null,
+  is_active boolean null default true,
+  created_at timestamp with time zone null default CURRENT_TIMESTAMP,
+  updated_at timestamp with time zone null default CURRENT_TIMESTAMP,
+  constraint food_preferences_pkey primary key (id)
+) TABLESPACE pg_default;
+
+
+// drinking prefs 
+create table drinking_preferences (
+  id serial primary key,
+  question text not null,
+  options jsonb not null 
+);

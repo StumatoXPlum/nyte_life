@@ -275,11 +275,13 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
 class CustomDateField extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onDateChanged;
+  final InputDecoration? decoration;
 
   const CustomDateField({
     super.key,
     required this.controller,
     required this.onDateChanged,
+    this.decoration,
   });
 
   @override
@@ -287,18 +289,17 @@ class CustomDateField extends StatelessWidget {
     return TextField(
       controller: controller,
       readOnly: true,
-      onTap:
-          () => DatePickerService.selectDate(
-            context: context,
-            controller: controller,
-            onDateChanged: onDateChanged,
-          ),
+      onTap: () => DatePickerService.selectDate(
+        context: context,
+        controller: controller,
+        onDateChanged: onDateChanged,
+      ),
       style: TextStyle(
         color: Colors.black,
         fontFamily: 'britti',
         fontSize: 16.sp,
       ),
-      decoration: InputDecoration(
+      decoration: decoration ?? InputDecoration(
         hintText: "Your Birthday",
         hintStyle: TextStyle(color: Colors.black54, fontSize: 16.sp),
         filled: true,

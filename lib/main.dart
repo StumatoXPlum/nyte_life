@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,11 @@ void main() async {
   runApp(
     BlocProvider(
       create: (context) => OnboardingCubit(),
-      child: const MyApp(),
+      child: DevicePreview(
+        builder: (context) {
+          return const MyApp();
+        },
+      ),
     ),
   );
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);

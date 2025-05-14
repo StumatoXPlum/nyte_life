@@ -33,10 +33,10 @@ class SignUpScreen extends StatelessWidget {
               );
             },
           ),
-          // SizedBox(height: 20.h),
+          SizedBox(height: 20.h),
           // buildContainer(
-          //   "assets/apple.svg",
-          //   "Continue with Apple",
+          //   "assets/google.svg",
+          //   "Continue with Google",
           //   Colors.black,
           //   Colors.white,
           //   Colors.black,
@@ -88,13 +88,17 @@ Widget buildContainer(
               colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
             SizedBox(width: 25.w),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'britti',
-                color: textColor,
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'britti',
+                  color: textColor,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
           ],

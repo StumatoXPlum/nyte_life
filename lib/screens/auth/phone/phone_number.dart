@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' as http;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/custom_widgets/custom_back_button.dart';
 import '../../../core/custom_widgets/custom_continue.dart';
 import 'country_picker.dart';
-import '../../../core/constants.dart';
 import 'phone_verification.dart';
 
 class PhoneNumber extends StatefulWidget {
@@ -55,49 +53,25 @@ class _PhoneNumberState extends State<PhoneNumber> {
 
   Future<void> sendOtp(String phoneNumber) async {
     try {
-      const String twilioAccountSID = AppSecrets.twilioAccountSID;
-      const String twilioAuthToken = AppSecrets.twilioAuthToken;
-      const String twilioServiceSid = AppSecrets.twilioServiceSid;
+      await Supabase.instance.client.auth.signInWithOtp(phone: phoneNumber);
 
-      final Uri url = Uri.parse(
-        "https://verify.twilio.com/v2/Services/$twilioServiceSid/Verifications",
-      );
-
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization':
-              'Basic ${base64Encode(utf8.encode('$twilioAccountSID:$twilioAuthToken'))}',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: {'To': phoneNumber, 'Channel': 'sms'},
-      );
-
-      if (response.statusCode == 201) {
-        if (context.mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PhoneVerification(phoneNumber: phoneNumber),
-            ),
-          );
-        }
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red.shade600,
-              behavior: SnackBarBehavior.floating,
-              content: Text("Failed to send OTP, Please try again later"),
-            ),
-          );
-        }
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PhoneVerification(phoneNumber: phoneNumber),
+          ),
+        );
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Error sending OTP: $e")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red.shade600,
+            behavior: SnackBarBehavior.floating,
+            content: Text("Failed to send OTP: $e"),
+          ),
+        );
       }
     }
   }
@@ -243,6 +217,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                       isLoading = false;
                     });
                   },
+
                   label: 'Send Otp',
                 ),
           ],

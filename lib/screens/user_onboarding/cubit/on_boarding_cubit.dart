@@ -34,11 +34,25 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   bool isFoodPreferenceSelected(String category, String option) =>
       state.selectedFoodPreferences[category] == option;
 
+  void toggleCuisine(String cuisine) {
+    final updated = Set<String>.from(state.selectedCuisines);
+    if (updated.contains(cuisine)) {
+      updated.remove(cuisine);
+    } else {
+      updated.add(cuisine);
+    }
+    emit(state.copyWith(selectedCuisines: updated));
+  }
+
   void setGender(String gender) => emit(state.copyWith(gender: gender));
 
   void setDateOfBirth(String dob) => emit(state.copyWith(dateOfBirth: dob));
 
   void setAddress(String address) => emit(state.copyWith(address: address));
+
+  void setFoodPreferences(Map<String, String> foodPreferences) {
+    emit(state.copyWith(selectedFoodPreferences: foodPreferences));
+  }
 }
 
 class OnboardingState {
@@ -51,6 +65,7 @@ class OnboardingState {
   final String? gender;
   final String? dateOfBirth;
   final String? address;
+  final Set<String> selectedCuisines; 
 
   OnboardingState({
     this.name = '',
@@ -62,8 +77,10 @@ class OnboardingState {
     this.gender,
     this.dateOfBirth,
     this.address,
+    Set<String>? selectedCuisines, 
   }) : selectedPreferences = selectedPreferences ?? {},
-       selectedFoodPreferences = selectedFoodPreferences ?? {};
+       selectedFoodPreferences = selectedFoodPreferences ?? {},
+       selectedCuisines = selectedCuisines ?? {}; 
 
   OnboardingState copyWith({
     String? name,
@@ -75,6 +92,7 @@ class OnboardingState {
     String? gender,
     String? dateOfBirth,
     String? address,
+    Set<String>? selectedCuisines, 
   }) {
     return OnboardingState(
       name: name ?? this.name,
@@ -87,6 +105,8 @@ class OnboardingState {
       gender: gender ?? this.gender,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       address: address ?? this.address,
+      selectedCuisines:
+          selectedCuisines ?? this.selectedCuisines,
     );
   }
 }
