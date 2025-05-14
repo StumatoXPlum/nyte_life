@@ -51,7 +51,7 @@ class GigsWidgetState extends State<GigsWidget> {
     return Column(
       children: [
         ListView.builder(
-          padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 120.h),
+          padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 60.h),
           itemCount: eventData.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
