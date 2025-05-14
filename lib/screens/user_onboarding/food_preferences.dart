@@ -29,6 +29,8 @@ class _FoodPreferencesState extends State<FoodPreferences> {
   late List<Map<String, dynamic>> foodPreferencesData;
   late List<String> cuisineOptions;
   late Future<void> _fetchPreferencesFuture;
+  bool _isSaving = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -53,9 +55,16 @@ class _FoodPreferencesState extends State<FoodPreferences> {
               ).cast<Map<String, List<String>>>();
           cuisineOptions = _getCuisineOptions(foodPreferencesData);
         });
+      } else {
+        setState(() {
+          _errorMessage = 'No food preferences data found';
+        });
       }
     } catch (error) {
-      print('Error fetching food preferences: $error');
+      setState(() {
+        _errorMessage = 'Error fetching food preferences: $error';
+      });
+      debugPrint('Error fetching food preferences: $error');
     }
   }
 
@@ -162,31 +171,72 @@ class _FoodPreferencesState extends State<FoodPreferences> {
     );
   }
 
-  void savePreferences() async {
-    final foodPreferences =
-        context.read<OnboardingCubit>().state.selectedFoodPreferences;
-    final cuisines =
-        context.read<OnboardingCubit>().state.selectedCuisines.toList();
+  Future<bool> savePreferences() async {
+    if (_isSaving) return false;
 
+    setState(() {
+      _isSaving = true;
+      _errorMessage = null;
+    });
+
+    final cubit = context.read<OnboardingCubit>();
     final user = supabase.auth.currentUser;
-    if (user != null) {
-      final preferences = {
-        'food_preferences': foodPreferences,
-        'cuisines': cuisines,
-      };
 
-      try {
-        await supabase.from('users').upsert({
-          'id': user.id,
-          'preferences': preferences,
+    try {
+      if (user == null) {
+        setState(() {
+          _errorMessage = 'User is not authenticated. Please login first.';
+          _isSaving = false;
         });
-
-        print('Food preferences saved successfully');
-      } catch (error) {
-        print('Error saving preferences: $error');
+        return false;
       }
-    } else {
-      print('User is not authenticated.');
+      final foodPreferences = cubit.state.selectedFoodPreferences;
+      final cuisines = cubit.state.selectedCuisines.toList();
+
+      if (foodPreferences.isEmpty && cuisines.isEmpty) {
+        setState(() {
+          _errorMessage = 'No preferences selected';
+          _isSaving = false;
+        });
+        debugPrint('Warning: No preferences selected');
+        return false;
+      }
+
+      final preferences = {'food_prefs': foodPreferences, 'cuisines': cuisines};
+
+      final response =
+          await supabase.from('users').upsert({
+            'id': user.id,
+            'food_prefs': preferences,
+          }).select();
+
+      debugPrint('Supabase response: $response');
+
+      setState(() {
+        _isSaving = false;
+      });
+
+      return true;
+    } on PostgrestException catch (error) {
+      setState(() {
+        _errorMessage = 'Database error: ${error.message}';
+        _isSaving = false;
+      });
+
+      return false;
+    } on AuthException catch (error) {
+      setState(() {
+        _errorMessage = 'Authentication error: ${error.message}';
+        _isSaving = false;
+      });
+
+      return false;
+    } catch (error) {
+      setState(() {
+        _errorMessage = 'Error saving preferences: $error';
+        _isSaving = false;
+      });
+      return false;
     }
   }
 
@@ -202,11 +252,9 @@ class _FoodPreferencesState extends State<FoodPreferences> {
               child: CircularProgressIndicator(color: Colors.black),
             );
           }
-
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,6 +286,28 @@ class _FoodPreferencesState extends State<FoodPreferences> {
                     ),
                   ),
                 ),
+                if (_errorMessage != null)
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 30.w,
+                      vertical: 10.h,
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.red.shade200),
+                      ),
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(
+                          color: Colors.red.shade800,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 20.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.w),
@@ -277,15 +347,21 @@ class _FoodPreferencesState extends State<FoodPreferences> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 50.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomContinue(
-              onTap: () {
-                savePreferences();
-                widget.goToNext();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomContinue(
+                  onTap: () async {
+                     await savePreferences();
+                      widget.goToNext();
+                    
+                  },
+                ),
+              ],
             ),
           ],
         ),

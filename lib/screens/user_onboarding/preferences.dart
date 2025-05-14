@@ -34,8 +34,12 @@ class Preferences extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Text(
-              "We want to gather Data so we can curate a perfect nightlife experience that matches what you want :)",
-              style: TextStyle(fontSize: fontSize, fontFamily: 'britti', height: 1.2),
+              "We want to gather data so we can curate a perfect nightlife experience that matches what you want :)",
+              style: TextStyle(
+                fontSize: fontSize,
+                fontFamily: 'britti',
+                height: 1.2,
+              ),
             ),
           ),
           SizedBox(height: 200.h),
@@ -48,7 +52,7 @@ class Preferences extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PageViewScreen()),
                 );
               },
-              label: "Agree, Let's Do it",
+              label: "Agree & Continue",
             ),
           ),
         ],

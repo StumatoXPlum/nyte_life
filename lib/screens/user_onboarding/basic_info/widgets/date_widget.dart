@@ -121,10 +121,10 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
     List<int> days = List.generate(daysInMonth, (index) => index + 1);
     return Padding(
       padding: EdgeInsets.only(
-        bottom: 60.h,
+        bottom: 30.h,
         left: 30.w,
         right: 30.w,
-        top: 50.h,
+        top: 30.h,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -138,21 +138,10 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
               color: Colors.black,
             ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 20.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildWheelPicker(
-                controller: _monthController,
-                items: _months,
-                onSelectedItemChanged: (index) {
-                  setState(() {
-                    _selectedMonthIndex = index;
-                  });
-                },
-                initialItem: _selectedMonthIndex,
-              ),
-              SizedBox(width: 10.w),
               _buildWheelPicker(
                 controller: _dayController,
                 items: days.map((day) => day.toString()).toList(),
@@ -162,6 +151,17 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                   });
                 },
                 initialItem: _selectedDay - 1,
+              ),
+              SizedBox(width: 10.w),
+              _buildWheelPicker(
+                controller: _monthController,
+                items: _months,
+                onSelectedItemChanged: (index) {
+                  setState(() {
+                    _selectedMonthIndex = index;
+                  });
+                },
+                initialItem: _selectedMonthIndex,
               ),
               SizedBox(width: 10.w),
               _buildWheelPicker(
@@ -289,34 +289,37 @@ class CustomDateField extends StatelessWidget {
     return TextField(
       controller: controller,
       readOnly: true,
-      onTap: () => DatePickerService.selectDate(
-        context: context,
-        controller: controller,
-        onDateChanged: onDateChanged,
-      ),
+      onTap:
+          () => DatePickerService.selectDate(
+            context: context,
+            controller: controller,
+            onDateChanged: onDateChanged,
+          ),
       style: TextStyle(
         color: Colors.black,
         fontFamily: 'britti',
         fontSize: 16.sp,
       ),
-      decoration: decoration ?? InputDecoration(
-        hintText: "Your Birthday",
-        hintStyle: TextStyle(color: Colors.black54, fontSize: 16.sp),
-        filled: true,
-        fillColor: const Color(0xffF0ECEC),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-      ),
+      decoration:
+          decoration ??
+          InputDecoration(
+            hintText: "Your Birthday",
+            hintStyle: TextStyle(color: Colors.black54, fontSize: 16.sp),
+            filled: true,
+            fillColor: const Color(0xffF0ECEC),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+          ),
     );
   }
 }

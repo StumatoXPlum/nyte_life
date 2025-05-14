@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -46,11 +47,14 @@ class _BasicInfoState extends State<BasicInfo> {
     }
   }
 
-  Widget buildTextField(String hint) {
+  Widget buildTextField(String hint, TextEditingController controller) {
     return TextField(
+      controller: controller,
       style: TextStyle(fontFamily: 'britti', fontSize: 16.sp),
       cursorColor: Colors.black,
-      controller: _nameController,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+      ],
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
@@ -72,6 +76,17 @@ class _BasicInfoState extends State<BasicInfo> {
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),
+      onChanged: (text) {
+        if (text.isNotEmpty) {
+          final capitalized = text[0].toUpperCase() + text.substring(1);
+          if (text != capitalized) {
+            controller.value = controller.value.copyWith(
+              text: capitalized,
+              selection: TextSelection.collapsed(offset: capitalized.length),
+            );
+          }
+        }
+      },
     );
   }
 
@@ -101,16 +116,13 @@ class _BasicInfoState extends State<BasicInfo> {
         throw Exception('User not logged in');
       }
 
-      final response =
-          await Supabase.instance.client.from('users').upsert({
-            'id': userId,
-            'name': name,
-            'gender': gender,
-            'date_of_birth': dob,
-            'location': address,
-          }).select();
-
-      print('User info saved to Supabase: $response');
+      await Supabase.instance.client.from('users').upsert({
+        'id': userId,
+        'name': name,
+        'gender': gender,
+        'date_of_birth': dob,
+        'location': address,
+      }).select();
 
       final cubit = context.read<OnboardingCubit>();
       cubit.setName(name);
@@ -138,6 +150,7 @@ class _BasicInfoState extends State<BasicInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -166,7 +179,7 @@ class _BasicInfoState extends State<BasicInfo> {
               padding: EdgeInsets.symmetric(horizontal: 40.w),
               child: Column(
                 children: [
-                  buildTextField("Please Enter Your Name"),
+                  buildTextField("Please Enter Your Name", _nameController),
                   SizedBox(height: 15.h),
                   Row(
                     children: [

@@ -85,8 +85,9 @@ class _PhoneNumberState extends State<PhoneNumber> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomBackButton(onTap: () => Navigator.pop(context)),
           SizedBox(height: size.height * 0.03),
@@ -186,42 +187,35 @@ class _PhoneNumberState extends State<PhoneNumber> {
               ],
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: 50.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isLoading
-                ? const CircularProgressIndicator(color: Colors.black)
-                : CustomContinue(
-                  onTap: () async {
-                    if (phoneController.text.trim().isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.green.shade600,
-                          content: Text("Please enter your phone number"),
-                        ),
-                      );
-                      return;
-                    }
-                    setState(() {
-                      isLoading = true;
-                    });
-                    String phone =
-                        "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
-                    await sendOtp(phone);
-                    setState(() {
-                      isLoading = false;
-                    });
-                  },
+          SizedBox(height: 100.h),
+          isLoading
+              ? const CircularProgressIndicator(color: Colors.black)
+              : CustomContinue(
+                onTap: () async {
+                  if (phoneController.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.green.shade600,
+                        content: Text("Please enter your phone number"),
+                      ),
+                    );
+                    return;
+                  }
+                  setState(() {
+                    isLoading = true;
+                  });
+                  String phone =
+                      "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
+                  await sendOtp(phone);
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
 
-                  label: 'Send Otp',
-                ),
-          ],
-        ),
+                label: 'Send OTP',
+              ),
+        ],
       ),
     );
   }

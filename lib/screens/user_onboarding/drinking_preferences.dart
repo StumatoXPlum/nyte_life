@@ -34,16 +34,12 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
 
   Future<void> _fetchQuestions() async {
     try {
-      print('Fetching questions from Supabase...');
       final response =
           await Supabase.instance.client.from('drinking_preferences').select();
-
-      print('Response received: $response');
 
       setState(() {
         questions = List<Map<String, dynamic>>.from(response);
       });
-      print('Questions loaded: ${questions.length}');
     } catch (e) {
       print('Exception while fetching questions: $e');
     }
@@ -145,13 +141,17 @@ class _DrinkingPreferencesState extends State<DrinkingPreferences> {
     };
 
     try {
-      final response = await Supabase.instance.client
-          .from('users')
-          .update({'preferences': preferences})
-          .eq('id', userId);
+      final response =
+          await Supabase.instance.client
+              .from('users')
+              .update({'drink_prefs': preferences})
+              .eq('id', userId)
+              .maybeSingle();
 
-      if (response.error != null) {
-        print('Error saving preferences: ${response.error!.message}');
+      if (response == null) {
+        print('No data returned.');
+      } else if (response['id'] == null) {
+        print('Update may have failed.');
       } else {
         print('Preferences saved successfully');
       }

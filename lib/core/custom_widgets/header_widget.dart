@@ -59,7 +59,7 @@ class HeaderWidget extends StatelessWidget {
             ),
             padding: EdgeInsets.all(1.5),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               decoration: BoxDecoration(
                 color: const Color(0xffEDE1C2),
                 borderRadius: BorderRadius.circular(32.r),
@@ -69,15 +69,15 @@ class HeaderWidget extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     'assets/arrow.svg',
-                    height: 15.h,
-                    width: 15.w,
+                    height: 10.h,
+                    width: 10.w,
                     fit: BoxFit.scaleDown,
                   ),
                   SizedBox(width: 8.w),
                   Text(
                     address ?? 'Location not set',
                     style: TextStyle(
-                      fontSize: 20.sp,
+                      fontSize: 12.sp,
                       fontFamily: 'britti',
                       color: Color(0xff6C5A1D),
                     ),
