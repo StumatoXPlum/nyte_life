@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nytelife/screens/booking/view/booking_screen.dart';
 import '../../screens/events/view/event_screen.dart';
-import '../../screens/home/view/home_screen.dart';
+import '../../screens/dining/view/dining_screen.dart';
 
 class CustomBottomBar extends StatefulWidget {
   final int initialIndex;
@@ -23,7 +23,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-    _screens = [HomeScreen(), EventScreen(), BookingScreen()];
+    _screens = [DiningScreen(), EventScreen(), BookingScreen()];
   }
 
   void _onItemTapped(int index) {

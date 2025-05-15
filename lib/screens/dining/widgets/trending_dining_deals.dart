@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'; 
 
-class GoodEventsWidget extends StatefulWidget {
-  const GoodEventsWidget({super.key});
+class TrendingDiningDeals extends StatefulWidget {
+  const TrendingDiningDeals({super.key});
 
   @override
-  State<GoodEventsWidget> createState() => GoodEventsWidgetState();
+  State<TrendingDiningDeals> createState() => TrendingDiningDealsState();
 }
 
-class GoodEventsWidgetState extends State<GoodEventsWidget> {
+class TrendingDiningDealsState extends State<TrendingDiningDeals> {
   final SupabaseClient supabase = Supabase.instance.client;
   final PageController _pageController = PageController(
     viewportFraction: 0.8,
@@ -22,15 +22,15 @@ class GoodEventsWidgetState extends State<GoodEventsWidget> {
   @override
   void initState() {
     super.initState();
-    fetchTrendingImages();
+    fetchTrendingDiningDeals();
   }
 
-  Future<void> fetchTrendingImages() async {
+  Future<void> fetchTrendingDiningDeals() async {
     final response =
-        await supabase.from('good_events_images').select('url') as List;
+        await supabase.from('trending_dining_deals').select('image_url') as List;
 
     final List<String> urls =
-        response.map((item) => item['url'] as String).toList();
+        response.map((item) => item['image_url'] as String).toList();
 
     setState(() {
       imageUrls = urls;

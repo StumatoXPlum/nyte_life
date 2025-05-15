@@ -14,7 +14,7 @@ class DatePickerService {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
       builder: (context) {
         return _CustomDatePicker(
           onDateSelected: (selectedDate) {
@@ -244,7 +244,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          backgroundColor: Colors.white,
+                          backgroundColor: Colors.grey.shade100,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -269,7 +269,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                               child: Text(
                                 "OK",
                                 style: TextStyle(
-                                  color: const Color(0xffD3AF37),
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: fontSize * 1,
                                   fontFamily: 'britti',
@@ -285,9 +285,9 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffD3AF37),
+                  backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: padding * 2,
@@ -324,7 +324,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
       width: size.width * 0.25,
       height: size.height * 0.3,
       decoration: BoxDecoration(
-        color: const Color(0xffF2DB8F),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: ListWheelScrollView.useDelegate(
@@ -347,7 +347,7 @@ class _CustomDatePickerState extends State<_CustomDatePicker> {
                 style: TextStyle(
                   fontSize: isSelected ? 16.sp : 12.sp,
                   fontFamily: 'britti',
-                  color: isSelected ? Colors.black : Colors.white,
+                  color: isSelected ? Colors.black : Colors.grey,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
@@ -389,14 +389,19 @@ class DateSlotField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xff202938)),
+        fillColor: Colors.grey.shade100,
+        suffixIcon: Icon(Icons.calendar_month_outlined),
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xff202938)),
           borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Colors.grey.shade300),
         ),
       ),
     );

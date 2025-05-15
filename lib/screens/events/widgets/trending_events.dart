@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'; 
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class TrendingDealsWidget extends StatefulWidget {
-  const TrendingDealsWidget({super.key});
+class TrendingEvents extends StatefulWidget {
+  const TrendingEvents({super.key});
 
   @override
-  State<TrendingDealsWidget> createState() => _TrendingDealsWidgetState();
+  State<TrendingEvents> createState() => TrendingEventsState();
 }
 
-class _TrendingDealsWidgetState extends State<TrendingDealsWidget> {
+class TrendingEventsState extends State<TrendingEvents> {
   final SupabaseClient supabase = Supabase.instance.client;
   final PageController _pageController = PageController(
     viewportFraction: 0.8,
@@ -27,10 +27,10 @@ class _TrendingDealsWidgetState extends State<TrendingDealsWidget> {
 
   Future<void> fetchTrendingImages() async {
     final response =
-        await supabase.from('trending_deals').select('image_url') as List;
+        await supabase.from('trending_events').select('url') as List;
 
     final List<String> urls =
-        response.map((item) => item['image_url'] as String).toList();
+        response.map((item) => item['url'] as String).toList();
 
     setState(() {
       imageUrls = urls;

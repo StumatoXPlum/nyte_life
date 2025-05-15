@@ -69,3 +69,12 @@ create table drinking_preferences (
   question text not null,
   options jsonb not null 
 );
+
+// reviews
+create table reviews (
+  id uuid primary key default gen_random_uuid(),
+  reviewer_name text not null,
+  rating text not null check (rating ~ '^[1-5](\.[0-9])?$'),
+  review text not null,
+  created_at timestamp with time zone default now()
+);

@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../view/home_detail_screen.dart';
+import '../view/dining_detail_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class EventsNearYouWidget extends StatefulWidget {
-  const EventsNearYouWidget({super.key});
+class DiningNearYouWidget extends StatefulWidget {
+  const DiningNearYouWidget({super.key});
 
   @override
-  State<EventsNearYouWidget> createState() => _EventsNearYouWidgetState();
+  State<DiningNearYouWidget> createState() => DiningNearYouWidgetState();
 }
 
-class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
+class DiningNearYouWidgetState extends State<DiningNearYouWidget> {
   final SupabaseClient supabase = Supabase.instance.client;
-  List<Map<String, dynamic>> eventData = [];
+  List<Map<String, dynamic>> diningData = [];
 
   @override
   void initState() {
     super.initState();
-    fetchEventData();
+    fetchDiningNearYou();
   }
 
-  Future<void> fetchEventData() async {
+  Future<void> fetchDiningNearYou() async {
     final response =
         await supabase
-                .from('events_near_you')
+                .from('dining_near_you')
                 .select('image_url, title, rating, description')
             as List;
 
     setState(() {
-      eventData =
+      diningData =
           response
               .map(
                 (item) => {
@@ -44,7 +44,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (eventData.isEmpty) {
+    if (diningData.isEmpty) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -52,7 +52,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
       children: [
         ListView.builder(
           padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 60.h),
-          itemCount: eventData.length,
+          itemCount: diningData.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
@@ -65,7 +65,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
                     MaterialPageRoute(
                       builder:
                           (context) =>
-                              HomeDetailScreen(event: eventData[index]),
+                              HomeDetailScreen(dining: diningData[index]),
                     ),
                   );
                 },
@@ -75,7 +75,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12.r),
                       child: Image.network(
-                        eventData[index]['image_url'],
+                        diningData[index]['image_url'],
                         height: 180.h,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -86,7 +86,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          eventData[index]['title'],
+                          diningData[index]['title'],
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontFamily: 'britti',
@@ -100,7 +100,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            '★ ${eventData[index]['rating']}',
+                            '★ ${diningData[index]['rating']}',
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontFamily: 'britti',

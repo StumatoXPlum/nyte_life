@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/custom_widgets/header_widget.dart';
 import '../../../core/custom_widgets/heading_widget.dart';
 import '../widgets/filter.dart';
-import '../widgets/gigs_widget.dart';
-import '../widgets/good_events.dart';
+import '../widgets/events_near_you.dart';
+import '../widgets/trending_events.dart';
 
 class EventScreen extends StatelessWidget {
   const EventScreen({super.key});
@@ -58,13 +58,13 @@ class EventScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10.h),
-            GoodEventsWidget(),
+            TrendingEvents(),
             SizedBox(height: 20.h),
             HeadingWidget(heading: "Popular gigs Near You"),
             SizedBox(height: 20.h),
             Filter(),
             SizedBox(height: 20.h),
-            GigsWidget(),
+            EventsNearYou(),
           ],
         ),
       ),

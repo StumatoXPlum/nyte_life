@@ -139,7 +139,7 @@ class EventDetailScreen extends StatelessWidget {
                         (context) => BookingDetails(
                           onDateSlotChanged: (String selectedDate) {},
                           onTimeSlotChanged: (String selectedTime) {},
-                          event: event,
+                          dining: event,
                           userId: userId,
                         ),
                   ),

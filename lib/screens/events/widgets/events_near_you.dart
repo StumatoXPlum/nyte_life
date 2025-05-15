@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/screens/events/view/event_detail_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class GigsWidget extends StatefulWidget {
-  const GigsWidget({super.key});
+class EventsNearYou extends StatefulWidget {
+  const EventsNearYou({super.key});
 
   @override
-  State<GigsWidget> createState() => GigsWidgetState();
+  State<EventsNearYou> createState() => EventsNearYouState();
 }
 
-class GigsWidgetState extends State<GigsWidget> {
+class EventsNearYouState extends State<EventsNearYou> {
   final SupabaseClient supabase = Supabase.instance.client;
   List<Map<String, dynamic>> eventData = [];
 
@@ -23,7 +23,7 @@ class GigsWidgetState extends State<GigsWidget> {
   Future<void> fetchEventData() async {
     final response =
         await supabase
-                .from('gig_images')
+                .from('events_near_you')
                 .select('url, title,rating,description')
             as List;
 

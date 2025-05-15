@@ -13,7 +13,7 @@ class TimePickerService {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
       builder: (context) {
         return _CustomTimePicker(
           onTimeSelected: (selectedTime) {
@@ -125,7 +125,7 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                 ':',
                 style: TextStyle(
                   fontSize: fontSize * 3,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -145,14 +145,14 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.white24, width: 1),
+                    border: Border.all(color: Colors.black26, width: 1),
                   ),
                   child: Column(
                     children: [
                       Text(
                         'AM',
                         style: TextStyle(
-                          color: !_isPM ? Colors.black : Colors.black26,
+                          color: !_isPM ? Colors.black : Colors.grey,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'britti',
                         ),
@@ -161,7 +161,7 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                       Text(
                         'PM',
                         style: TextStyle(
-                          color: _isPM ? Colors.black : Colors.black26,
+                          color: _isPM ? Colors.black : Colors.grey,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'britti',
                         ),
@@ -199,9 +199,9 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffD3AF37),
+                  backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: padding * 2,
@@ -235,7 +235,7 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
       width: size.width * 0.25,
       height: size.height * 0.2,
       decoration: BoxDecoration(
-        color: const Color(0xffF2DB8F),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
@@ -301,14 +301,19 @@ class CustomTimeField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xff202938)),
+        fillColor: Colors.grey.shade100,
+        suffixIcon: Icon(Icons.timer_outlined),
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xff202938)),
           borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Colors.grey.shade300),
         ),
       ),
     );
