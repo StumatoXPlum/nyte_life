@@ -132,7 +132,7 @@ class HomeDetailScreen extends StatelessWidget {
                     builder:
                         (context) => BookingDetails(
                           onDateSlotChanged: (String selectedDate) {},
-                          onTimeSlotChanged: (String selectedTime) {},
+                          onTimeSlotChanged: (String selectedTime) {}, dining: {}, userId: '',
                         ),
                   ),
                 );
