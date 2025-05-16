@@ -1,3 +1,4 @@
+// screens/user_onboarding/drinking_preferences.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/custom_widgets/custom_bottom_bar.dart';

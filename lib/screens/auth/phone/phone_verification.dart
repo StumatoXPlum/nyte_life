@@ -1,3 +1,4 @@
+// screens/auth/phone/phone_verification.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,35 +42,54 @@ class _PhoneVerificationState extends State<PhoneVerification> {
     BuildContext context,
   ) async {
     try {
-      final supabase = Supabase.instance.client;
+      const String twilioAccountSID = AppSecrets.twilioAccountSID;
+      const String twilioAuthToken = AppSecrets.twilioAuthToken;
+      const String twilioServiceSid = AppSecrets.twilioServiceSid;
 
-      final response = await supabase.auth.verifyOTP(
-        type: OtpType.sms,
-        phone: phoneNumber,
-        token: otpCode,
+      final Uri url = Uri.parse(
+        "https://verify.twilio.com/v2/Services/$twilioServiceSid/VerificationCheck",
       );
 
-      final user = response.user;
+      final String basicAuth =
+          'Basic ${base64Encode(utf8.encode('$twilioAccountSID:$twilioAuthToken'))}';
 
-      if (user != null) {
-        // You can also store the phone number if not already stored
-        await supabase.from('users').upsert({
-          'id': user.id,
-          'phone_number': phoneNumber,
-        });
+      print("Verifying OTP $otpCode for $phoneNumber");
 
-        if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Preferences()),
-          );
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': basicAuth,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {'To': phoneNumber, 'Code': otpCode},
+      );
+
+      print("Status: ${response.statusCode}");
+      print("Body: ${response.body}");
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final responseData = jsonDecode(response.body);
+
+        if (responseData['status'] == 'approved') {
+          final supabase = Supabase.instance.client;
+
+          await supabase.from('users').upsert({'phone_number': phoneNumber});
+
+          if (context.mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Preferences()),
+            );
+          }
+        } else {
+          showError("OTP not approved. Please check again.");
         }
       } else {
-        showError("OTP verification failed.");
+        showError("Verification failed. Please try again.");
       }
     } catch (e) {
-      print("Verification error: $e");
-      showError("Invalid OTP or something went wrong.");
+      print("Error: $e");
+      showError("Something went wrong. Please try again.");
     }
   }
 
@@ -168,21 +188,15 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               onPressed: resendOtp,
               child: RichText(
                 text: TextSpan(
-                  style: TextStyle(fontSize: 16.sp, fontFamily: 'britti'),
+                  style: TextStyle(fontSize: fontSize, fontFamily: 'britti'),
                   children: [
                     TextSpan(
                       text: "Didn't receive code? ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontFamily: 'britti',
-                      ),
+                      style: TextStyle(color: Colors.black),
                     ),
                     TextSpan(
                       text: 'Resend',
                       style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: 'britti',
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
                       ),

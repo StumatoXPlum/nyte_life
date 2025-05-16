@@ -1,3 +1,4 @@
+// screens/auth/sign_up_screen.dart/sign_up_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,10 +34,10 @@ class SignUpScreen extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 20.h),
+          // SizedBox(height: 20.h),
           // buildContainer(
-          //   "assets/google.svg",
-          //   "Continue with Google",
+          //   "assets/apple.svg",
+          //   "Continue with Apple",
           //   Colors.black,
           //   Colors.white,
           //   Colors.black,
@@ -80,6 +81,7 @@ Widget buildContainer(
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
               svgPath,
@@ -87,7 +89,7 @@ Widget buildContainer(
               width: 28.w,
               colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
-            SizedBox(width: 25.w),
+            SizedBox(width: 15.w),
             Expanded(
               child: Text(
                 title,
@@ -98,7 +100,6 @@ Widget buildContainer(
                   color: textColor,
                 ),
                 overflow: TextOverflow.ellipsis,
-                maxLines: 1,
               ),
             ),
           ],

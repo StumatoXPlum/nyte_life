@@ -1,10 +1,13 @@
+// screens/auth/phone/phone_number.dart
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:http/http.dart' as http;
 import '../../../core/custom_widgets/custom_back_button.dart';
 import '../../../core/custom_widgets/custom_continue.dart';
 import 'country_picker.dart';
+import '../../../core/constants.dart';
 import 'phone_verification.dart';
 
 class PhoneNumber extends StatefulWidget {
@@ -53,25 +56,49 @@ class _PhoneNumberState extends State<PhoneNumber> {
 
   Future<void> sendOtp(String phoneNumber) async {
     try {
-      await Supabase.instance.client.auth.signInWithOtp(phone: phoneNumber);
+      const String twilioAccountSID = AppSecrets.twilioAccountSID;
+      const String twilioAuthToken = AppSecrets.twilioAuthToken;
+      const String twilioServiceSid = AppSecrets.twilioServiceSid;
 
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PhoneVerification(phoneNumber: phoneNumber),
-          ),
-        );
+      final Uri url = Uri.parse(
+        "https://verify.twilio.com/v2/Services/$twilioServiceSid/Verifications",
+      );
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization':
+              'Basic ${base64Encode(utf8.encode('$twilioAccountSID:$twilioAuthToken'))}',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {'To': phoneNumber, 'Channel': 'sms'},
+      );
+
+      if (response.statusCode == 201) {
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PhoneVerification(phoneNumber: phoneNumber),
+            ),
+          );
+        }
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red.shade600,
+              behavior: SnackBarBehavior.floating,
+              content: Text("Failed to send OTP, Please try again later"),
+            ),
+          );
+        }
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red.shade600,
-            behavior: SnackBarBehavior.floating,
-            content: Text("Failed to send OTP: $e"),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Error sending OTP: $e")));
       }
     }
   }
@@ -85,9 +112,8 @@ class _PhoneNumberState extends State<PhoneNumber> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomBackButton(onTap: () => Navigator.pop(context)),
           SizedBox(height: size.height * 0.03),
@@ -187,35 +213,41 @@ class _PhoneNumberState extends State<PhoneNumber> {
               ],
             ),
           ),
-          SizedBox(height: 100.h),
-          isLoading
-              ? const CircularProgressIndicator(color: Colors.black)
-              : CustomContinue(
-                onTap: () async {
-                  if (phoneController.text.trim().isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.green.shade600,
-                        content: Text("Please enter your phone number"),
-                      ),
-                    );
-                    return;
-                  }
-                  setState(() {
-                    isLoading = true;
-                  });
-                  String phone =
-                      "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
-                  await sendOtp(phone);
-                  setState(() {
-                    isLoading = false;
-                  });
-                },
-
-                label: 'Send OTP',
-              ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 50.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            isLoading
+                ? const CircularProgressIndicator(color: Colors.black)
+                : CustomContinue(
+                  onTap: () async {
+                    if (phoneController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.green.shade600,
+                          content: Text("Please enter your phone number"),
+                        ),
+                      );
+                      return;
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+                    String phone =
+                        "+${selectedCountry.phoneCode}${phoneController.text.trim()}";
+                    await sendOtp(phone);
+                    setState(() {
+                      isLoading = false;
+                    });
+                  },
+                  label: 'Send Otp',
+                ),
+          ],
+        ),
       ),
     );
   }
