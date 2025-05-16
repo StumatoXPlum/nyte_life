@@ -231,9 +231,16 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
     required VoidCallback onDecrement,
   }) {
     final Size size = MediaQuery.of(context).size;
+    final double maxHeight = 180.h;
+    final double calculatedHeight = size.height * 0.2;
+    final double containerHeight =
+        calculatedHeight > maxHeight ? maxHeight : calculatedHeight;
+    final double iconSize = containerHeight * 0.2;
+    final double fontSize = containerHeight * 0.25;
+
     return Container(
       width: size.width * 0.25,
-      height: size.height * 0.2,
+      height: containerHeight,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
@@ -245,14 +252,16 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
             icon: Icon(
               Icons.keyboard_arrow_up,
               color: Colors.black,
-              size: size.height * 0.04,
+              size: iconSize,
             ),
             onPressed: onIncrement,
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
           ),
           Text(
             value.toString().padLeft(2, '0'),
             style: TextStyle(
-              fontSize: size.height * 0.04,
+              fontSize: fontSize * 0.7,
               color: Colors.black,
               fontFamily: 'britti',
               fontWeight: FontWeight.bold,
@@ -262,9 +271,11 @@ class _CustomTimePickerState extends State<_CustomTimePicker> {
             icon: Icon(
               Icons.keyboard_arrow_down,
               color: Colors.black,
-              size: size.height * 0.04,
+              size: iconSize,
             ),
             onPressed: onDecrement,
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
           ),
         ],
       ),

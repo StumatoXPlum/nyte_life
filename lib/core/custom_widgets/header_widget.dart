@@ -51,6 +51,14 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                   shape: BoxShape.circle,
                   border: Border.all(color: const Color(0xffD3AF37), width: 2),
                 ),
+                child: ClipOval(
+                  child: Image.network(
+                    'https://plus.unsplash.com/premium_photo-1732757787074-0f95bf19cf73?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dXNlciUyMGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D',
+                    fit: BoxFit.cover,
+                    width: 100.w,
+                    height: 100.h,
+                  ),
+                ),
               ),
             ),
             SizedBox(width: 20.w),

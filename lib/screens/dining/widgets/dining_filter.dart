@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class DiningFilter extends StatefulWidget {
-  const DiningFilter({super.key});
+class DiningFilter extends StatelessWidget {
+  final String selectedFilter;
+  final Function(String) onFilterChange;
 
-  @override
-  State<DiningFilter> createState() => _DiningFilterState();
-}
+  DiningFilter({
+    super.key,
+    required this.selectedFilter,
+    required this.onFilterChange,
+  });
 
-class _DiningFilterState extends State<DiningFilter> {
-  String selectedFilter = "All";
   final List<String> filters = [
     "All",
     "Continental",
@@ -18,6 +19,7 @@ class _DiningFilterState extends State<DiningFilter> {
     "Asian",
     "Italian",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,27 +27,25 @@ class _DiningFilterState extends State<DiningFilter> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          spacing: 14.w,
           children: [
-            Container(
-              decoration: BoxDecoration(),
-              child: SvgPicture.asset(
-                "assets/filter.svg",
-                height: 15.h,
-                width: 15.w,
-                fit: BoxFit.scaleDown,
-              ),
+            SvgPicture.asset(
+              "assets/filter.svg",
+              height: 15.h,
+              width: 15.w,
+              fit: BoxFit.scaleDown,
             ),
+            SizedBox(width: 10.w),
             ...filters.map(
-              (filter) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedFilter = filter;
-                  });
-                },
-                child: DiningFilterTile(
-                  title: filter,
-                  isSelected: filter == selectedFilter,
+              (filter) => Padding(
+                padding: EdgeInsets.only(right: 8.w),
+                child: GestureDetector(
+                  onTap: () {
+                    onFilterChange(filter);
+                  },
+                  child: DiningFilterTile(
+                    title: filter,
+                    isSelected: filter == selectedFilter,
+                  ),
                 ),
               ),
             ),
@@ -55,6 +55,7 @@ class _DiningFilterState extends State<DiningFilter> {
     );
   }
 }
+
 
 class DiningFilterTile extends StatelessWidget {
   final String title;

@@ -78,3 +78,18 @@ create table reviews (
   review text not null,
   created_at timestamp with time zone default now()
 );
+
+
+// event bookings
+create table if not exists public.event_bookings (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  event_title text not null,
+  event_fee text not null,
+  event_date text not null,
+  event_time text not null,
+  event_location text not null,
+  number_of_tickets text not null,
+  total_price text not null,
+  created_at timestamp with time zone default timezone('utc', now())
+);

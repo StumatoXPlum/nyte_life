@@ -4,17 +4,17 @@ import 'package:nytelife/core/custom_widgets/custom_continue.dart';
 import 'package:nytelife/screens/booking/view/booking_details.dart';
 import 'package:nytelife/screens/dining/models/reviews_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
- 
-class HomeDetailScreen extends StatefulWidget {
+
+class DiningDetailScreen extends StatefulWidget {
   final Map<String, dynamic> dining;
 
-  const HomeDetailScreen({super.key, required this.dining});
+  const DiningDetailScreen({super.key, required this.dining});
 
   @override
-  State<HomeDetailScreen> createState() => _HomeDetailScreenState();
+  State<DiningDetailScreen> createState() => DiningDetailScreenState();
 }
 
-class _HomeDetailScreenState extends State<HomeDetailScreen> {
+class DiningDetailScreenState extends State<DiningDetailScreen> {
   late Future<List<ReviewsModel>> _reviewsFuture;
 
   @override
@@ -112,7 +112,6 @@ class _HomeDetailScreenState extends State<HomeDetailScreen> {
                 ),
               ],
             ),
-
             SizedBox(height: 16.h),
             Padding(
               padding: customPadding,
@@ -232,32 +231,28 @@ class _HomeDetailScreenState extends State<HomeDetailScreen> {
                 );
               },
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(vertical: 28.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomContinue(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => BookingDetails(
-                          onDateSlotChanged: (String selectedDate) {},
-                          onTimeSlotChanged: (String selectedTime) {},
-                          dining: widget.dining,
-                          userId: userId,
-                        ),
-                  ),
-                );
-              },
-              label: 'Book a Table',
+            SizedBox(height: 20.h),
+            Align(
+              alignment: Alignment.center,
+              child: CustomContinue(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => BookingDetails(
+                            onDateSlotChanged: (String selectedDate) {},
+                            onTimeSlotChanged: (String selectedTime) {},
+                            dining: widget.dining,
+                            userId: userId,
+                          ),
+                    ),
+                  );
+                },
+                label: 'Book a Table',
+              ),
             ),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

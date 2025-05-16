@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nytelife/core/custom_widgets/custom_bottom_bar.dart';
@@ -353,8 +354,24 @@ class _BookingDetailsState extends State<BookingDetails> {
               SizedBox(height: 10.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Text(
-                  "By completing this reservation you agree to our reservation policy. A confirmation will be sent to your phone number.",
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text:
+                            "By completing this reservation you agree to our ",
+                      ),
+                      TextSpan(
+                        text: "reservation policy",
+                        style: TextStyle(color: Color(0xffF3A712)),
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                      ),
+                      TextSpan(
+                        text:
+                            ". A confirmation will be sent to your phone number.",
+                      ),
+                    ],
+                  ),
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontFamily: 'britti',

@@ -24,7 +24,9 @@ class EventsNearYouState extends State<EventsNearYou> {
     final response =
         await supabase
                 .from('events_near_you')
-                .select('url, title,rating,description')
+                .select(
+                  'url, title,rating,description,date,time,location,event_fee',
+                )
             as List;
 
     setState(() {
@@ -36,6 +38,10 @@ class EventsNearYouState extends State<EventsNearYou> {
                   'title': item['title'],
                   'rating': item['rating'],
                   'description': item['description'],
+                  'date': item['date'],
+                  'time': item['time'],
+                  'location': item['location'],
+                  'event_fee': item['event_fee'],
                 },
               )
               .toList();

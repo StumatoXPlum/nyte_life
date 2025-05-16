@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/custom_widgets/header_widget.dart';
 import '../../../core/custom_widgets/heading_widget.dart';
-import '../widgets/dining_filter.dart';
 import '../widgets/dining_near_you.dart';
 import '../widgets/trending_dining_deals.dart';
 
@@ -28,8 +27,6 @@ class DiningScreen extends StatelessWidget {
             TrendingDiningDeals(),
             SizedBox(height: 20.h),
             HeadingWidget(heading: "Places Near You"),
-            SizedBox(height: 20.h),
-            DiningFilter(),
             SizedBox(height: 20.h),
             DiningNearYouWidget(),
           ],

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nytelife/screens/booking/view/event_tab.dart';
-import 'dining_tab.dart';
+import 'package:nytelife/screens/booking/event_view/event_tab.dart';
+import '../dining_view/dining_tab.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -13,6 +13,16 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
   String _selectedSegment = 'Dining';
+
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final arg = ModalRoute.of(context)?.settings.arguments;
+    if (arg != null && arg is String && arg == 'Events') {
+      _selectedSegment = 'Events';
+    }
+  }
 
   final Map<String, Widget> _segmentWidgets = const {
     'Dining': Text('Dining', style: TextStyle(fontSize: 16)),

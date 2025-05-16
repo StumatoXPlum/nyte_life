@@ -30,7 +30,6 @@ class DiningTab extends StatelessWidget {
                 itemCount: diningBookings.length,
                 itemBuilder: (context, index) {
                   final booking = diningBookings[index];
-                  // Parsing date string
                   DateTime? parsedDate;
                   try {
                     parsedDate = DateTime.parse(booking['date']);
